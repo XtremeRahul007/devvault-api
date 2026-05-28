@@ -1,0 +1,13 @@
+{
+  "id": 1779894097892,
+  "title": "Mastering CSS Grid: A Beginner's Guide",
+  "type": "article",
+  "content": "CSS Grid Layout is the most powerful layout system available in CSS. It is a 2-dimensional system, meaning it can handle both columns and rows, unlike Flexbox which is largely a 1-dimensional system. In this guide, we explore grid-template-columns, grid-gap, and how to position items perfectly within the viewport.",
+  "tags": [
+    "frontend",
+    "css",
+    "web-dev",
+    "design",
+    "scss"
+  ]
+}

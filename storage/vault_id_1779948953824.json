@@ -1,0 +1,12 @@
+{
+  "id": 1779948953824,
+  "title": "Fix Sidebar Toggle Bug on Mobile",
+  "type": "task",
+  "content": "The mobile sidebar overlay isn't covering the full viewport on iOS devices. Need to update the height utility to use 100dvh instead of 100vh and ensure the z-index is properly stacked above the main content container.",
+  "tags": [
+    "bug",
+    "ui",
+    "sidebar",
+    "high-priority"
+  ]
+}
