@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { createItemService, deleteItemService, getAllVaultService, getItemService, updateVaultService } from "../services/vault.service.js";
 import type { VaultItem } from "../types/vault.types.js";
+import { AppError } from "../core/errors/AppError.js";
 
 export const getVault = async (req: Request, res: Response, next: NextFunction) => {
     const id = Number(req.params.id);
@@ -17,7 +18,7 @@ export const createVaultItem = async (req: Request, res: Response, next: NextFun
 
     const { title, type, content, tags } = req.body;
     if (!title || typeof title !== "string" || !type || typeof type !== "string" || !content || typeof content !== "string" || !Array.isArray(tags) || !tags.every(item => typeof item === "string")) {
-        return res.status(400).json({ error: "Invalid request body" });
+        throw new AppError(400, "Invalid request body");
     }
     try {
         const item = {
@@ -56,7 +57,7 @@ export const updateVaultItem = async (req: Request, res: Response, next: NextFun
         } = req.body;
 
     if (!isStringOrUndefined(title) || !isStringOrUndefined(type) || !isStringOrUndefined(content) || (tags !== undefined && (!Array.isArray(tags) || !tags.every(item => typeof item === "string")))) {
-        return res.status(400).json({ error: "Invalid request body" });
+        throw new AppError(400, "Invalid request body");
     }
 
     const newItem = {

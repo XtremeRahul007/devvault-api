@@ -1,0 +1,18 @@
+[2026-05-29T07:35:45.832Z] DELETE /vault/177994895381212 - File not found [404]
+Error: File not found
+    at deleteVault (D:\GitHubRepos\devvault-api\src\data\vault.storage.ts:66:19)
+    at async deleteItemService (D:\GitHubRepos\devvault-api\src\services\vault.service.ts:14:12)
+    at async deleteVaultItem (D:\GitHubRepos\devvault-api\src\controllers\vault.controller.ts:42:26)
+
+[2026-05-29T07:35:46.500Z] DELETE /vault/177994895381212 - File not found [404]
+Error: File not found
+    at deleteVault (D:\GitHubRepos\devvault-api\src\data\vault.storage.ts:66:19)
+    at async deleteItemService (D:\GitHubRepos\devvault-api\src\services\vault.service.ts:14:12)
+    at async deleteVaultItem (D:\GitHubRepos\devvault-api\src\controllers\vault.controller.ts:42:26)
+
+[2026-05-29T07:35:47.078Z] DELETE /vault/177994895381212 - File not found [404]
+Error: File not found
+    at deleteVault (D:\GitHubRepos\devvault-api\src\data\vault.storage.ts:66:19)
+    at async deleteItemService (D:\GitHubRepos\devvault-api\src\services\vault.service.ts:14:12)
+    at async deleteVaultItem (D:\GitHubRepos\devvault-api\src\controllers\vault.controller.ts:42:26)
+

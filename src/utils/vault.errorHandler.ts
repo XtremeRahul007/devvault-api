@@ -1,4 +1,4 @@
-import { AppError } from "../errors/AppError.js";
+import { AppError } from "../core/errors/AppError.js";
 
 export const isNodeError = (err: unknown): err is NodeJS.ErrnoException => {
     return err instanceof Error && 'code' in err;
@@ -16,7 +16,7 @@ export function handleFileError(err: unknown) {
             throw new AppError(500, "Unexpected storage failure");
     }
 }
-
+/*
 export function handleFolderError(err: unknown) {
     switch (isNodeError(err) && err.code) {
         case 'EACCES':
@@ -29,3 +29,4 @@ export function handleFolderError(err: unknown) {
             throw new AppError(500, "Unexpected storage failure");
     }
 }
+*/

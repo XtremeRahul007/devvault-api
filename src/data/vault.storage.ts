@@ -1,8 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
 import type { VaultItem } from "../types/vault.types.js";
-import { handleFileError, handleFolderError, isNodeError } from "../utils/vault.errorHandler.js";
-import { AppError } from "../errors/AppError.js";
+import { handleFileError, isNodeError } from "../utils/vault.errorHandler.js";
+import { AppError } from "../core/errors/AppError.js";
 
 const folderPath = path.join(process.cwd(), "storage");
 
@@ -67,14 +67,5 @@ export async function deleteVault(id: number): Promise<{ message: string }> {
         } else {
             throw new AppError(500, "An unexpected error occurred");
         }
-    }
-}
-
-export async function createFolder() {
-    try {
-        await fs.mkdir(folderPath, { recursive: true });
-        console.log("Folder created successfully (or already exists).");
-    } catch (err) {
-        handleFolderError(err);
     }
 }

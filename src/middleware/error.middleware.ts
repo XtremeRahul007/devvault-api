@@ -1,14 +1,15 @@
 import type { Request, Response, NextFunction } from "express";
-import { AppError } from "../errors/AppError.js";
+import { AppError } from "../core/errors/AppError.js";
+import { logError } from "../utils/logger.js";
 
-export function errorMiddleware(err: unknown, _req: Request, res: Response, _next: NextFunction) {
-    if (err instanceof AppError) {
-        return res.status(err.statusCode).json({
-            error: err.message
-        });
-    }
-    console.error(err)
-    return res.status(500).json({
-        error: "Internal server error"
+export function errorMiddleware(err: AppError, req: Request, res: Response, next: NextFunction): void {
+    if (!err.stack) return;
+    logError({
+        method: req.method,
+        url: req.url,
+        message: err.message,
+        statusCode: err.statusCode,
+        stack: err.stack
     });
+    res.status(err.statusCode ?? 500).json({ error: `${err.message}` })
 }
