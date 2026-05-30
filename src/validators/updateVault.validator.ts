@@ -1,7 +1,6 @@
 import { AppError } from "../core/errors/AppError.js";
-import type { VaultItem } from "../@types/vault.types.js";
+import type { UpdateVaultInput } from "../@types/vault.types.js";
 
-type UpdateVaultInput = Partial<Pick<VaultItem, "title" | "type" | "content" | "tags">>
 const whiteListed = ["title", "type", "content", "tags"] as const;
 
 export function updateVaultValidator(reqBody: unknown): UpdateVaultInput {

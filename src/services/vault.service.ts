@@ -1,26 +1,22 @@
-import { deleteVault, getAllVault, readVault, writeVault } from "../data/vault.storage.js";
-import type { VaultItem } from "../@types/vault.types.js";
+import type { CreateVaultInput, VaultItem } from "../@types/vault.types.js";
+import * as VaultRepository from "../repositories/vault.repository.js";
 
 export async function getItemService(id: number) {
-    return await readVault(id);
+    return await VaultRepository.getById(id);
 }
 
-export async function createItemService(data: VaultItem) {
-    await writeVault(data);
-    return data;
+export async function createItemService(item: CreateVaultInput) {
+    await VaultRepository.create(item);
 }
 
 export async function deleteItemService(id: number) {
-    return await deleteVault(id);
+    return VaultRepository.deleteById(id);
 }
 
-export async function updateVaultService(id: number, data: Partial<VaultItem>) {
-    const previousData = await readVault(id);
-    const newData = Object.assign({}, previousData, data);
-    await writeVault(newData);
-    return newData;
+export async function updateVaultService(id: number, item: Partial<VaultItem>) {
+    return VaultRepository.update(id, item);
 }
 
-export async function getAllVaultService(): Promise<VaultItem[]> {
-    return await getAllVault();
+export async function getAllVaultService() {
+    return VaultRepository.getAll();
 }

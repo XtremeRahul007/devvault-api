@@ -4,9 +4,11 @@ import { errorMiddleware } from "./middleware/error.middleware.js";
 import { prepareRuntimeInfra } from "./utils/initInfrastructure.js";
 import { requestMiddleware } from "./middleware/request.middleware.js";
 import { requestIdMiddleware } from "./middleware/requestId.middleware.js";
+import "dotenv/config";
+import { infrastructureConfig } from "./core/configs/infrastructure.js";
 
 const app = express();
-const PORT = 5000;
+const PORT = infrastructureConfig.PORT;
 
 prepareRuntimeInfra();
 app.use(requestIdMiddleware);

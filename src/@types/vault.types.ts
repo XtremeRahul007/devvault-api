@@ -24,3 +24,6 @@ export interface ErrorLogData {
     statusCode: number,
     stack: string
 }
+
+export type UpdateVaultInput = Partial<Pick<VaultItem, "title" | "type" | "content" | "tags">>;
+export type CreateVaultInput = Omit<VaultItem, "id">;

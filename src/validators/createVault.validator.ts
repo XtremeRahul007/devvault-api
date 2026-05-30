@@ -1,7 +1,6 @@
-import type { VaultItem } from "../@types/vault.types.js";
+import type { CreateVaultInput } from "../@types/vault.types.js";
 import { AppError } from "../core/errors/AppError.js";
 
-type CreateVaultInput = Omit<VaultItem, "id">;
 const whiteListed = ["title", "type", "content", "tags"] as const;
 
 export function createVaultValidator(reqBody: Record<string, unknown>): CreateVaultInput {

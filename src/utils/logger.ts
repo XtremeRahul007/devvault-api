@@ -1,8 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import type { ErrorLogData, RequestLogData } from '../@types/vault.types.js';
+import { infrastructureConfig } from '../core/configs/infrastructure.js';
 
-const folderPath = path.join(process.cwd(), "logs");
+const folderPath = path.join(process.cwd(), infrastructureConfig.LOG_PATH);
 
 export function logError(data: ErrorLogData) {
     const log = `[${data.requestId}][${new Date().toISOString()}] ${data.method} ${data.url} - ${data.message} [${data.statusCode ?? 500}]\n${data.stack}\n\n`;

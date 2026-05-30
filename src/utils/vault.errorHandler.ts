@@ -16,6 +16,7 @@ export function handleFileError(err: unknown) {
             throw new AppError(500, "Unexpected storage failure");
     }
 }
+
 /*
 export function handleFolderError(err: unknown) {
     switch (isNodeError(err) && err.code) {
