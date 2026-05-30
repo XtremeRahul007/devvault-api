@@ -5,6 +5,7 @@ import { logError } from "../utils/logger.js";
 export function errorMiddleware(err: AppError, req: Request, res: Response, next: NextFunction): void {
     if (!err.stack) return;
     logError({
+        requestId: req.requestId,
         method: req.method,
         url: req.url,
         message: err.message,

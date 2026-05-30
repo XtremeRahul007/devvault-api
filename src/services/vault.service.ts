@@ -1,5 +1,5 @@
 import { deleteVault, getAllVault, readVault, writeVault } from "../data/vault.storage.js";
-import type { VaultItem } from "../types/vault.types.js";
+import type { VaultItem } from "../@types/vault.types.js";
 
 export async function getItemService(id: number) {
     return await readVault(id);

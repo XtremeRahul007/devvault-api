@@ -7,6 +7,7 @@ export function requestMiddleware(req: Request, res: Response, next: NextFunctio
     res.on("finish", () => {
         if (!req.ip) return;
         logRequest({
+            requestId: req.requestId,
             start: start,
             method: req.method,
             originalUrl: req.originalUrl,

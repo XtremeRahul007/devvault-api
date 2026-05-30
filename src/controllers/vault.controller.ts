@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { createItemService, deleteItemService, getAllVaultService, getItemService, updateVaultService } from "../services/vault.service.js";
-import type { VaultItem } from "../types/vault.types.js";
-import { AppError } from "../core/errors/AppError.js";
+import { updateVaultValidator } from "../validators/updateVault.validator.js";
+import { createVaultValidator } from "../validators/createVault.validator.js";
 
 export const getVault = async (req: Request, res: Response, next: NextFunction) => {
     const id = Number(req.params.id);
@@ -15,18 +15,15 @@ export const getVault = async (req: Request, res: Response, next: NextFunction) 
 
 
 export const createVaultItem = async (req: Request, res: Response, next: NextFunction) => {
-
-    const { title, type, content, tags } = req.body;
-    if (!title || typeof title !== "string" || !type || typeof type !== "string" || !content || typeof content !== "string" || !Array.isArray(tags) || !tags.every(item => typeof item === "string")) {
-        throw new AppError(400, "Invalid request body");
-    }
     try {
+        const validatedBody = createVaultValidator(req.body);
+
         const item = {
             id: Date.now(),
-            title,
-            type,
-            content,
-            tags
+            title: validatedBody.title,
+            type: validatedBody.type,
+            content: validatedBody.content,
+            tags: validatedBody.tags
         };
 
         const response = await createItemService(item);
@@ -48,34 +45,9 @@ export const deleteVaultItem = async (req: Request, res: Response, next: NextFun
 
 export const updateVaultItem = async (req: Request, res: Response, next: NextFunction) => {
     const id = Number(req.params.id);
-    const { title, type, content, tags }:
-        {
-            title?: unknown;
-            type?: unknown;
-            content?: unknown;
-            tags?: unknown;
-        } = req.body;
-
-    if (!isStringOrUndefined(title) || !isStringOrUndefined(type) || !isStringOrUndefined(content) || (tags !== undefined && (!Array.isArray(tags) || !tags.every(item => typeof item === "string")))) {
-        throw new AppError(400, "Invalid request body");
-    }
-
-    const newItem = {
-        title,
-        type,
-        content,
-        tags
-    }
-
-    const cleanSource: Partial<VaultItem> = Object.fromEntries(
-        Object.entries(newItem)
-            .filter(([_, value]) =>
-                value !== undefined
-            )
-    );
-
     try {
-        const response = await updateVaultService(id, cleanSource);
+        const validatedBody = updateVaultValidator(req.body);
+        const response = await updateVaultService(id, validatedBody);
         res.status(200).json(response);
     } catch (err) {
         next(err);
@@ -89,8 +61,4 @@ export const getAllVaultItem = async (_req: Request, res: Response, next: NextFu
     } catch (err) {
         next(err);
     }
-}
-
-function isStringOrUndefined(value: unknown): boolean {
-    return typeof value === "string" || value === undefined;
 }

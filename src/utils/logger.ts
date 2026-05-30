@@ -1,30 +1,16 @@
 import fs from 'fs';
 import path from 'path';
+import type { ErrorLogData, RequestLogData } from '../@types/vault.types.js';
+
 const folderPath = path.join(process.cwd(), "logs");
 
-interface RequestLogData {
-    start: number,
-    method: string,
-    originalUrl: string,
-    statusCode: number,
-    duration: number,
-    ip: string | null
-}
-
-interface ErrorLogData {
-    method: string,
-    url: string,
-    message: string,
-    statusCode: number,
-    stack: string
-}
 export function logError(data: ErrorLogData) {
-    const log = `[${new Date().toISOString()}] ${data.method} ${data.url} - ${data.message} [${data.statusCode ?? 500}]\n${data.stack}\n\n`;
+    const log = `[${data.requestId}][${new Date().toISOString()}] ${data.method} ${data.url} - ${data.message} [${data.statusCode ?? 500}]\n${data.stack}\n\n`;
     writeLog("error.log", log);
 }
 
 export function logRequest(data: RequestLogData) {
-    const log = `[${new Date(data.start).toISOString()}] ${data.method} ${data.originalUrl} - ${data.statusCode} ${data.duration}ms ${data.ip}\n`;
+    const log = `[${data.requestId}][${new Date(data.start).toISOString()}] ${data.method} ${data.originalUrl} - ${data.statusCode} ${data.duration}ms ${data.ip}\n`;
     writeLog("requests.log", log);
 }
 

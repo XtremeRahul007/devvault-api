@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import type { VaultItem } from "../types/vault.types.js";
+import type { VaultItem } from "../@types/vault.types.js";
 import { handleFileError, isNodeError } from "../utils/vault.errorHandler.js";
 import { AppError } from "../core/errors/AppError.js";
 
