@@ -13,7 +13,6 @@ export const getVaultById = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
-
 export const createVault = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const validatedBody = createVaultValidator(req.body);
