@@ -1,14 +1,14 @@
 import type { Request, Response, NextFunction } from "express";
-import { AppError } from "../core/errors/AppError.js";
-import { createUploadService, deleteUploadService, getUploadByIdService } from "../services/file.service.js";
+import { createUploadService, deleteUploadService, getAllUploadsService, getUploadByIdService, renameUploadService } from "../services/file.service.js";
+import { updateFileValidator } from "../validators/updateFile.validator.js";
+import { validateUploadFile } from "../validators/upload.validator.js";
+import { validateUploadQuery } from "../validators/validateUploadQuery.js";
 
 export const uploadFile = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        if (!req.file) {
-            throw new AppError(400, "No file uploaded");
-        }
+        const file = validateUploadFile(req.file);
 
-        const response = await createUploadService(req.file);
+        const response = await createUploadService(file);
 
         res.status(201).json(response);
     } catch (err) {
@@ -30,6 +30,27 @@ export const deleteFile = async (req: Request, res: Response, next: NextFunction
     try {
         const id = String(req.params.id);
         const response = await deleteUploadService(id);
+        res.status(200).json(response);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export const renameUpload = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const id = String(req.params.id);
+        const validatedBody = updateFileValidator(req.body);
+        const response = await renameUploadService(id, validatedBody);
+        res.status(200).json(response);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export const getAllUploads = async (req: Request, res: Response, next :NextFunction) => {
+    try {
+        const validateQuery = validateUploadQuery(req.query);
+        const response = await getAllUploadsService(validateQuery);
         res.status(200).json(response);
     } catch (err) {
         next(err);

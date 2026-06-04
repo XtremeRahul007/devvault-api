@@ -1,4 +1,4 @@
-import type { DeleteFileResponse, FileMetaData } from "../@types/file.types.js";
+import type { FileMetaData, UpdateFileInput } from "../@types/file.types.js";
 import { readMetadata, writeMetadata, readAllMetadata, deleteMetadata, deletePhysicalFile } from "../storage/providers/file.localDiskStorage.js";
 
 export async function create(metadata: FileMetaData): Promise<{ message: string } | void> {
@@ -19,4 +19,10 @@ export async function deleteById(id: string): Promise<void> {
 
 export async function deleteStoredFile(storedName: string, originalName: string): Promise<void> {
     return await deletePhysicalFile(storedName, originalName);
+}
+
+export async function update(id: string, newName: UpdateFileInput) {
+    const metadata = await readMetadata(id);
+    const newMetadata = Object.assign({}, metadata, newName);
+    return await writeMetadata(newMetadata);
 }

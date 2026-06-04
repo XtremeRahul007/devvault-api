@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import { AppError } from "../core/errors/AppError.js";
 import { logError } from "../utils/logger.js";
 
-export function errorMiddleware(err: AppError, req: Request, res: Response, next: NextFunction): void {
+export function errorMiddleware(err: AppError, req: Request, res: Response, _next: NextFunction): void {
     if (!err.stack) return;
     logError({
         requestId: req.requestId,

@@ -7,7 +7,8 @@ export const infrastructureConfig = {
     FILES_PATH: process.env.FILES_PATH,
     METADATA_PATH: process.env.METADATA_PATH,
     VAULT_PATH: process.env.VAULT_PATH,
-    LOG_PATH: process.env.LOG_PATH
+    LOG_PATH: process.env.LOG_PATH,
+    MAX_FILE_SIZE: Number(process.env.MAX_FILE_SIZE)
 }
 
 export const REQUIRED_DIRECTORIES = {

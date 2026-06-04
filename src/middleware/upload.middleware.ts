@@ -13,7 +13,13 @@ const storage = multer.diskStorage({
         const extension = path.extname(file.originalname);
 
         callback(null, `${fileId}${extension}`);
-    }
+    },
 });
 
-export const upload = multer({ storage });
+export const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: infrastructureConfig.MAX_FILE_SIZE
+    }
+})
+
