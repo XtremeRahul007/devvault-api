@@ -1,0 +1,7 @@
+:root[data-theme="light"] {
+    --core-bg: var(--color-zinc-200);
+}
+
+:root[data-theme="dark"] {
+    --core-bg: var(--color-zinc-800);
+}
