@@ -1,0 +1,58 @@
+dialog {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.2s ease, transform 0.2s ease,
+        display 0.2s allow-discrete,
+        overlay 0.2s allow-discrete;
+}
+
+dialog[open] {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@starting-style {
+    dialog[open] {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+dialog::backdrop {
+    background: rgb(0 0 0 / 0);
+    transition: background 0.2s ease,
+        display 0.2s allow-discrete,
+        overlay 0.2s allow-discrete;
+}
+
+dialog[open]::backdrop {
+    background: rgb(0 0 0 / 0.5);
+}
+
+@starting-style {
+    dialog[open]::backdrop {
+        background: rgb(0 0 0 / 0);
+    }
+}
+
+[popover] {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        display 0.2s allow-discrete,
+        overlay 0.2s allow-discrete;
+}
+
+[popover]:popover-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+@starting-style {
+    [popover]:popover-open {
+        opacity: 0;
+        transform: translateY(6px) scale(0.97);
+    }
+}

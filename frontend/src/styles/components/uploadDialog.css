@@ -1,0 +1,27 @@
+.upload-dialog {
+    @apply m-auto bg-transparent sm:w-xl;
+
+    &::backdrop {
+        background-color: #00000080;
+    }
+}
+
+.upload-wrapper {
+    @apply bg-(--primary-bg) flex flex-col gap-2 p-3 rounded-xl;
+}
+
+.file-info-container {
+    @apply flex flex-col gap-2;
+}
+
+.file-info-header {
+    @apply text-(--secondary-color) leading-3.5 text-base;
+}
+
+.file-info-list {
+    @apply flex flex-col scrollbar-thin scrollbar-thumb-(--tertiary-color) scrollbar-track-transparent wrap-break-word leading-relaxed max-h-48 overflow-x-hidden overflow-y-auto;
+
+    li {
+        @apply text-zinc-400 font-medium text-sm;
+    }
+}

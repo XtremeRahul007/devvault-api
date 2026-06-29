@@ -1,0 +1,39 @@
+.confirm-dialog {
+    @apply m-auto bg-transparent max-w-lg w-[90dvw];
+
+    &::backdrop {
+        background: #00000080;
+    }
+
+    .confirm-dialog-form {
+        @apply bg-(--primary-bg) text-(--secondary-color) flex flex-col items-center p-4 rounded-xl;
+    }
+
+    .confirm-dialog-title {
+        @apply text-(--secondary-color) font-medium text-lg w-full text-center border-b-2 border-(--secondary-color);
+    }
+
+    .confirm-dialog-message {
+        @apply text-zinc-400 font-normal text-base w-full text-left py-4;
+    }
+
+    .confirm-dialog-actions {
+        @apply flex flex-row justify-between items-center w-full mt-4;
+    }
+
+    .confirm-dialog-btn {
+        @apply text-base rounded-sm px-2 py-0.5 shadow-md;
+    }
+
+    .confirm-dialog-btn--cancel {
+        @apply bg-(--blue-element-bg) text-(--blue-element-color);
+    }
+
+    .confirm-dialog-btn--confirm {
+        @apply bg-(--green-element-bg) text-(--green-element-color);
+    }
+
+    .confirm-dialog-btn--danger {
+        @apply bg-(--red-element-bg) text-(--red-element-color);
+    }
+}

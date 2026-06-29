@@ -1,22 +1,30 @@
 import { infrastructureConfig } from "../core/configs/infrastructure.js";
 import { AppError } from "../core/errors/AppError.js";
 
-export function validateUploadFile(file: Express.Multer.File | undefined) {
-    if (!file) {
-        throw new AppError(400, "No file uploaded");
+export function validateUploadFile(files: Express.Multer.File[] | { [fieldname: string]: Express.Multer.File[] } | undefined): Express.Multer.File[] {
+    let filesArray: Express.Multer.File[] = [];
+
+    if (!files) throw new AppError(400, "No file uploaded");
+
+    if (Array.isArray(files)) {
+        filesArray = files;
+    } else {
+        filesArray = Object.values(files).flat();
     }
 
-    const MAX_FILE_SIZE = infrastructureConfig.MAX_FILE_SIZE;
+    if (filesArray.length === 0) throw new AppError(400, "No file uploaded");
 
-    if (file.size > MAX_FILE_SIZE) {
-        throw new AppError(400, `File exceeds maximum size of ${formatFileSize(MAX_FILE_SIZE)}`);
+    const MAX_FILE_SIZE = infrastructureConfig.MAX_FILE_SIZE
+
+    filesArray.forEach(file => {
+        if (!file.originalname || typeof file.originalname !== "string" || file.originalname.trim() === "") throw new AppError(400, "Invalid file name");
+    });
+
+    const totalSize = filesArray.reduce((sum, file) => sum + file.size, 0);
+    if (totalSize > MAX_FILE_SIZE) {
+        throw new AppError(400, `Total size exceeds the ${formatFileSize(MAX_FILE_SIZE)} limit.`);
     }
-
-    if (typeof file.originalname !== "string" || file.originalname.trim() === "") {
-        throw new AppError(400, "Invalid file name");
-    }
-
-    return file;
+    return filesArray;
 }
 
 export function formatFileSize(bytes: number): string {

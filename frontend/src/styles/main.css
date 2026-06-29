@@ -1,3 +1,13 @@
 @import "tailwindcss";
 @import "./themes/theme.css";
-@import "./components/base.css";
+@import "./utils/utilities.css";
+
+@import "../../public/icons/file-icon-vivid.css";
+@import "../../public/svgs/svg-loader.css";
+
+@import "./components/confirmDialog.css";
+@import "./components/animations.css";
+@import "./components/popupMenu.css";
+@import "./components/infoDialog.css";
+@import "./components/uploadDialog.css";
+@import "./components/toast.css";

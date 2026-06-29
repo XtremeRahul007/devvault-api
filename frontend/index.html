@@ -19,13 +19,37 @@
   </script>
 </head>
 
-<body>
-  <header>
-    <h1>Tailwind test</h1>
+<body class="flex flex-col">
+  <header class="p-2">
+    <section class="flex justify-between items-center bg-(--primary-bg) p-2 px-2.5 rounded-lg depth-container">
+      <h1 class="text-4xl font-bold text-(--primary-color)">DevVault</h1>
+      <button class="primary-button depth-box" id="themeSwitch">
+        <span class="svg-gr svg-size-md" id="themeIcon"></span>
+      </button>
+    </section>
   </header>
-  <main></main>
+  <main class="flex flex-col flex-1 min-h-0">
+    <section class="flex-1 flex flex-col min-h-0 p-2">
+      <div class="flex flex-col gap-2 bg-(--primary-bg) rounded-lg p-2 depth-container flex-1 min-h-0">
+        <div class="flex justify-between items-center">
+          <h1 class="text-xl font-medium text-(--secondary-color)">All Files
+          </h1>
+          <div class="flex flex-row gap-2">
+            <button type="button" class="primary-button depth-box" id="uploadButton">
+              <span class="svg-gr svg-size-sm svg-upload"></span>
+            </button>
+            <button type="button" class="primary-button depth-box">
+              <span class="svg-gr svg-size-sm svg-filter"></span>
+            </button>
+          </div>
+        </div>
+        <ul class="primary-list primary-inset-container rounded-md flex-1 min-h-0 overflow-y-auto" id="fileList">
+        </ul>
+      </div>
+    </section>
+  </main>
   <footer></footer>
-  <script type="module" src="./src/main.ts"></script>
+  <script defer type="module" src="./src/main.ts"></script>
 </body>
 
 </html>

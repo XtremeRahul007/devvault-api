@@ -20,7 +20,13 @@ app.use(requestIdMiddleware);
 app.use(requestMiddleware);
 app.use(express.json());
 app.use("/vault", vaultRoutes);
+
+app.use((_req, res, next) => {
+    res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+    next();
+});
 app.use("/api/file", fileRouter);
+
 app.use("/folder", folderRouter);
 app.use(multerErrorHandler);
 app.use(errorMiddleware);

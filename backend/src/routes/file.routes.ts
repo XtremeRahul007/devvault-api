@@ -1,12 +1,13 @@
 import express from "express";
-import { deleteFile, downloadFile, getAllUploads, renameUpload, uploadFile } from "../controllers/file.controller.js";
+import { deleteFile, downloadFile, getAllUploads, getFileInfo, renameUpload, uploadFiles } from "../controllers/file.controller.js";
 import { upload } from "../middleware/upload.middleware.js";
 
 const router = express.Router();
 
-router.post("/", upload.single("file"), uploadFile);
-router.get("/:id", downloadFile);
-router.delete("/:id", deleteFile);
+router.post("/upload", upload.array("files"), uploadFiles);
+router.get("/download/:id", downloadFile);
+router.get("/info/:id", getFileInfo);
+router.delete("/delete/:id", deleteFile);
 router.patch("/:id", renameUpload);
 router.get("/", getAllUploads);
 

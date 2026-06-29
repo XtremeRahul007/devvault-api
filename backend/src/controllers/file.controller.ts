@@ -1,18 +1,28 @@
 import type { Request, Response, NextFunction } from "express";
-import { createUploadService, deleteUploadService, getAllUploadsService, getUploadByIdService, renameUploadService } from "../services/file.service.js";
+import { createUploadService, deleteUploadService, getAllUploadsService, getFileInfoByIdService, getUploadByIdService, renameUploadService } from "../services/file.service.js";
 import { updateFileValidator } from "../validators/updateFile.validator.js";
 import { validateUploadFile } from "../validators/upload.validator.js";
 import { validateUploadQuery } from "../validators/uploadQuery.validator.js";
 
-export const uploadFile = async (req: Request, res: Response, next: NextFunction) => {
+export const uploadFiles = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const folderId = req.body.folderId ?? null;
 
-        const file = validateUploadFile(req.file);
+        const files = validateUploadFile(req.files);
 
-        const response = await createUploadService(file, folderId);
+        const response = await createUploadService(files, folderId);
 
         res.status(201).json(response);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export const getFileInfo = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const id = String(req.params.id);
+        const fileInfo = await getFileInfoByIdService(id);
+        res.status(200).json(fileInfo);
     } catch (err) {
         next(err);
     }
@@ -49,7 +59,7 @@ export const renameUpload = async (req: Request, res: Response, next: NextFuncti
     }
 }
 
-export const getAllUploads = async (req: Request, res: Response, next :NextFunction) => {
+export const getAllUploads = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const validateQuery = validateUploadQuery(req.query);
         const response = await getAllUploadsService(validateQuery);

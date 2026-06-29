@@ -1,0 +1,15 @@
+.info-dialog {
+    @apply m-auto bg-transparent;
+
+    &::backdrop {
+        background-color: #00000080;
+    }
+}
+
+.dialog-int-wrapper {
+    @apply grid max-w-2xs bg-(--primary-bg) gap-1 p-2 rounded-lg;
+
+    p {
+        @apply bg-(--secondary-bg) text-(--secondary-color) py-1 px-2 shadow-(--primary-inset-shadow) rounded-md overflow-x-auto min-w-0 text-nowrap scrollbar-thin scrollbar-thumb-(--tertiary-color) scrollbar-track-transparent;
+    }
+}

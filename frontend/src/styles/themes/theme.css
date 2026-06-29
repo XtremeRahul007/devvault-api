@@ -1,7 +1,53 @@
 :root[data-theme="light"] {
     --core-bg: var(--color-zinc-200);
+    --core-color: var(--color-zinc-900);
+
+    --primary-bg: var(--color-zinc-100);
+    --primary-color: var(--color-zinc-800);
+
+    --secondary-bg: var(--color-zinc-50);
+    --secondary-color: var(--color-zinc-700);
+
+    --tertiary-color: var(--color-zinc-500);
+
+    --primary-inset-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.10),
+        inset 0 1px 2px rgba(0, 0, 0, 0.08),
+        0 1px 0px rgba(255, 255, 255, 0.8);
+
+    --blue-element-bg: var(--color-blue-500);
+    --blue-element-color: var(--color-blue-50);
+
+    --green-element-bg: var(--color-green-500);
+    --green-element-color: var(--color-green-50);
+
+    --red-element-bg: var(--color-red-500);
+    --red-element-color: var(--color-red-50);
 }
 
 :root[data-theme="dark"] {
-    --core-bg: var(--color-zinc-800);
+    --core-bg: var(--color-zinc-950);
+    --core-color: var(--color-zinc-100);
+
+    --primary-bg: var(--color-zinc-900);
+    --primary-color: var(--color-zinc-200);
+
+    --secondary-bg: var(--color-zinc-800);
+    --secondary-color: var(--color-zinc-300);
+
+    --tertiary-color: var(--color-zinc-300);
+
+    --primary-inset-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.50),
+        inset 0 1px 2px rgba(0, 0, 0, 0.40),
+        0 1px 0px rgba(255, 255, 255, 0.04);
+
+    --blue-element-bg: var(--color-blue-800);
+    --blue-element-color: var(--color-blue-200);
+
+    --green-element-bg: var(--color-green-800);
+    --green-element-color: var(--color-green-200);
+
+    --red-element-bg: var(--color-red-800);
+    --red-element-color: var(--color-red-200);
 }

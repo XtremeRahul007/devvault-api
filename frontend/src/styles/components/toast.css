@@ -1,0 +1,61 @@
+.toast-container {
+    @apply fixed flex flex-col gap-4 z-auto bottom-5 left-5;
+}
+
+.toast {
+    @apply relative min-w-xs max-w-[calc(100%-20px)] py-3 px-4 translate-x-[-150%] transition-transform duration-500 ease-in-out overflow-hidden rounded-lg border-2;
+
+    &.show {
+        @apply translate-x-0 z-999;
+    }
+
+    &.success {
+        @apply bg-(--green-element-color) border-(--green-element-bg);
+
+        .toast-message {
+            @apply text-(--green-element-bg) scrollbar-thumb-(--green-element-bg);
+        }
+
+        .toast-progress {
+            @apply bg-(--green-element-bg);
+        }
+    }
+
+    &.info {
+        @apply bg-(--blue-element-color) border-(--blue-element-bg);
+
+        .toast-message {
+            @apply text-(--blue-element-bg) scrollbar-thumb-(--blue-element-bg);
+        }
+
+        .toast-progress {
+            @apply bg-(--blue-element-bg);
+        }
+    }
+
+    &.error {
+        @apply bg-(--red-element-color) border-(--red-element-bg);
+
+        .toast-message {
+            @apply text-(--red-element-bg) scrollbar-thumb-(--red-element-bg);
+        }
+
+        .toast-progress {
+            @apply bg-(--red-element-bg);
+        }
+    }
+}
+
+.toast-message {
+    @apply scrollbar-track-transparent wrap-break-word leading-relaxed max-h-8 overflow-x-hidden overflow-y-auto;
+}
+
+.toast-progress {
+    @apply absolute bottom-0 left-0 origin-left w-full h-1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform-origin: left;
+    width: 100%;
+    height: 3px;
+}
