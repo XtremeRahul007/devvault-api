@@ -1,7 +1,5 @@
-import { deleteService } from "../services/filedeleteService";
-import { downloadService } from "../services/fileDownloadService";
-import { fileInfoService } from "../services/fileInfoService";
-import { createInfoDialog, updateInfoDialog } from "./fileInfoDialog";
+import { deleteService, fileInfoService, downloadService } from "../services/fileService";
+import { createInfoDialog } from "./fileInfoDialog";
 import { fileIdValidator } from "./validators";
 
 let activeFileID: string | null = null;
@@ -52,9 +50,8 @@ export function initPopUpController() {
                 await deleteService(validateFileID);
                 break;
             case "info":
-                const info = await fileInfoService(validateFileID);
+                await fileInfoService(validateFileID);
                 dialog.showModal();
-                updateInfoDialog(info);
                 break;
         }
 

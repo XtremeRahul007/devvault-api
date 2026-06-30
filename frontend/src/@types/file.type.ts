@@ -30,3 +30,9 @@ export interface PaginatedResponse<T> {
     totalPages: number;
     data: T[];
 }
+
+export interface ApiResponse<T> {
+    data: T;
+    message: string;
+    error: string;
+}

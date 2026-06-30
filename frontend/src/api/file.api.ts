@@ -1,21 +1,14 @@
-import type { FileInfo, FileListItemDto, PaginatedResponse } from "../@types/file.type";
-import { renderFiles } from "../components/renderList";
-import { toast } from "../services/toastService";
+import type { ApiResponse, FileInfo, FileListItemDto, PaginatedResponse } from "../@types/file.type";
+import { apiResponse } from "./file.api.helper";
 
 export const getFiles = async () => {
     try {
         const response = await fetch("/api/file", { method: 'GET' });
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch files");
-        }
+        return await apiResponse<ApiResponse<PaginatedResponse<FileListItemDto>>>(response);
 
-        const apiResponse = await response.json() as PaginatedResponse<FileListItemDto>;
-        const files = apiResponse.data;
-
-        renderFiles(files);
     } catch (err) {
-        console.error("Data fetching failed:", err);
+        console.error("Failed to fetch files:", err);
     }
 }
 
@@ -23,32 +16,23 @@ export const getFileInfo = async (fileId: string) => {
     try {
         const response = await fetch(`/api/file/info/${fileId}`, { method: 'GET' });
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch file info");
-        }
+        return await apiResponse<ApiResponse<FileInfo>>(response);
 
-        const apiResponse = await response.json() as FileInfo;
-
-        return apiResponse;
     } catch (err) {
-        toast.error(`Info Fetching failed: ${err}`);
+        console.error("Failed to fetch files:", err);
     }
 }
 
 export const downloadFile = async (fileId: string) => {
     try {
+        window.location.href = `/api/file/download/${fileId}`;
+
         const response = await fetch(`/api/file/info/${fileId}`, { method: 'GET' });
 
-        if (!response.ok) {
-            throw new Error("Failed to do download file");
-        }
+        return await apiResponse<ApiResponse<FileInfo>>(response);
 
-        const apiResponse = await response.json();
-
-        toast.success(`"${apiResponse.name}" has started downloading...`);
-        window.location.href = `/api/file/download/${fileId}`;
     } catch (err) {
-        toast.error(`Error downloading file: ${err}`);
+        console.error("Failed to fetch files:", err);
     }
 };
 
@@ -65,12 +49,10 @@ export async function uploadFiles(files: File[]) {
             body: formData
         });
 
-        if (!response.ok) {
-            throw new Error("Upload failed");
-        }
-        toast.success("Files uploaded successfully.");
+        return await apiResponse<ApiResponse<any>>(response);
+
     } catch (err) {
-        toast.error(`Error uploading files: ${err}`);
+        console.error("Failed to fetch files:", err);
     }
 
 }
@@ -79,12 +61,9 @@ export async function deleteFile(fileId: string) {
     try {
         const response = await fetch(`/api/file/delete/${fileId}`, { method: 'DELETE' });
 
-        if (!response.ok) {
-            throw new Error("Failed to delete file");
-        }
+        return await apiResponse<ApiResponse<any>>(response);
 
-        toast.success("Files deleted successfully.");
     } catch (err) {
-        toast.error(`Error uploading files: ${err}`);
+        console.error("Failed to fetch files:", err);
     }
 }

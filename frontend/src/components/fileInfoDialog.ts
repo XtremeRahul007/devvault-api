@@ -15,10 +15,10 @@ export function updateInfoDialog(info: FileInfo | undefined) {
             <span class="svg-gr svg-size-sm svg-close pointer-events-none"></span>
         </button>
     </div>
-    <p>File name: ${info.name}</p>
-    <p>File type: ${(info.extension).slice(1)}</p>
-    <p>File size: ${formatFileSize(info.size)}</p>
-    <p>Uploaded at: ${new Date(info.uploadedAt)}</p>
+    <p>File name: ${info.name ?? "loading..."}</p>
+    <p>File type: ${(info.extension).slice(1) ?? "loading..."}</p>
+    <p>File size: ${formatFileSize(info.size) ?? "loading..."}</p>
+    <p>Uploaded at: ${new Date(info.uploadedAt) ?? "loading..."}</p>
     `;
 }
 

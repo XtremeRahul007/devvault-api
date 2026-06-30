@@ -31,7 +31,13 @@ export const getFileInfo = async (req: Request, res: Response, next: NextFunctio
 export const downloadFile = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = String(req.params.id);
-        const file = await getUploadByIdService(id);
+        const upload = await getUploadByIdService(id);
+
+        if (!upload.data) {
+            throw new Error("File not found");
+        }
+
+        const file = upload.data;
         res.download(file.filePath, file.metadata.originalName);
     } catch (err) {
         next(err);

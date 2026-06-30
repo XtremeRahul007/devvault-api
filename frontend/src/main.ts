@@ -1,15 +1,15 @@
 import "./styles/main.css";
-import { getFiles } from "./api/file.api";
 import { initPopUpController } from "./components/popupMenu";
 import { initUploadFile } from "./components/uploadDialog";
 import { initThemeController } from "./utils/themeManager";
+import { fileListRenderingService } from "./services/fileService";
 
 
 async function initApp() {
     try {
         initThemeController();
         initPopUpController();
-        await getFiles();
+        await fileListRenderingService();
         initUploadFile();
     } catch (error) {
         console.error(error);
