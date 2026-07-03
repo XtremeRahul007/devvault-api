@@ -6,8 +6,8 @@ declare namespace NodeJS {
         UPLOADS_PATH: string;
         FILES_PATH: string;
         METADATA_PATH: string;
-        FOLDER_PATH: string;
         VAULT_PATH: string;
         MAX_FILE_SIZE: string;
+        FOLDER_PATH: string;
     }
 }

@@ -1,7 +1,25 @@
 import fs from 'fs';
 import path from 'path';
-import type { ErrorLogData, RequestLogData } from '../@types/vault.types.js';
 import { infrastructureConfig } from '../core/configs/infrastructure.js';
+
+type ErrorLogData = {
+    requestId: string;
+    method: string;
+    url: string;
+    message: string;
+    statusCode?: number;
+    stack?: string;
+};
+
+type RequestLogData = {
+    requestId: string;
+    start: string | number | Date;
+    method: string;
+    originalUrl: string;
+    statusCode: number;
+    duration: number;
+    ip: string;
+};
 
 const folderPath = path.join(process.cwd(), infrastructureConfig.LOG_PATH);
 

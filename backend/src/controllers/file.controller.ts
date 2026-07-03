@@ -6,11 +6,9 @@ import { validateUploadQuery } from "../validators/uploadQuery.validator.js";
 
 export const uploadFiles = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const folderId = req.body.folderId ?? null;
-
         const files = validateUploadFile(req.files);
 
-        const response = await createUploadService(files, folderId);
+        const response = await createUploadService(files);
 
         res.status(201).json(response);
     } catch (err) {

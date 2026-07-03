@@ -16,18 +16,3 @@ export function handleFileError(err: unknown) {
             throw new AppError(500, "Unexpected storage failure");
     }
 }
-
-/*
-export function handleFolderError(err: unknown) {
-    switch (isNodeError(err) && err.code) {
-        case 'EACCES':
-            throw new AppError(403, "Permission denied");
-        case 'ENOSPC':
-            throw new AppError(507, "Insufficient storage");
-        case 'EROFS':
-            throw new AppError(500, "Storage is read-only");
-        default:
-            throw new AppError(500, "Unexpected storage failure");
-    }
-}
-*/

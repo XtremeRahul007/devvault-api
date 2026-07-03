@@ -1,114 +1,159 @@
 # DevVault
 
-DevVault is a self-hosted cloud storage backend inspired by Google Drive. It allows users to store, organize, retrieve, and manage files on their own server while maintaining synchronized metadata for efficient file management.
+DevVault is a self-hosted file storage platform inspired by modern cloud storage services. It provides a RESTful backend and a lightweight TypeScript frontend for uploading, managing, and retrieving files while maintaining synchronized metadata.
 
-The project is designed for developers, hobbyists, and organizations that want a private storage solution without relying on third-party cloud providers.
-
----
-
-## Features
-
-### Current Features
-
-- File upload
-- File download
-- File deletion
-- File rename/update
-- Metadata synchronization
-- Folder creation
-- Folder deletion
-- Folder hierarchy support
-- REST API architecture
-- Local filesystem storage
-- JSON-based metadata management
-
-### Planned Features
-
-- User authentication and authorization
-- JWT-based security
-- Server-side rendered Admin Dashboard
-- Server-side rendered User Dashboard
-- User management system
-- Activity and transaction logs
-- Storage analytics
-- LAN file sharing between connected devices
-- Access permissions and role management
-- Advanced search capabilities
+The project is being built as a learning-focused, production-inspired application with emphasis on clean architecture, maintainability, and scalable software design rather than feature parity with existing cloud providers.
 
 ---
 
-## Architecture
+# Features
 
-DevVault stores files directly on the server's filesystem while maintaining metadata separately for quick access and management.
+## Current Features
 
-### Storage Structure
+### File Management
 
-```text
-storage/
-├── user1/
-│   ├── documents/
-│   └── images/
-│
-├── user2/
-│   ├── projects/
-│   └── backups/
-│
-└── ...
-```
+* Upload single or multiple files
+* Download files
+* Delete files
+* Rename files
+* View file metadata
+* Real-time upload progress tracking
+* Upload speed monitoring
+* Backend-driven success and error responses
 
-### Metadata Structure
+### Frontend
 
-Metadata is currently stored using JSON files and synchronized with the actual filesystem.
-
-This approach provides:
-
-- Fast metadata retrieval
-- Simple deployment
-- Easy debugging
-- No database dependency
-
----
-
-## Tech Stack
+* TypeScript-based frontend
+* Service-oriented architecture
+* API abstraction layer
+* Reusable dialog components
+* Toast notification system
+* Responsive upload interface
 
 ### Backend
 
-- Node.js
-- Express.js
-- TypeScript
-
-### File Handling
-
-- Multer
-- Node.js File System (fs)
-- Path Module
-
-### Metadata Storage
-
-- JSON Files
-
-### API
-
-- REST API
+* RESTful API
+* Layered architecture
+* Repository pattern
+* Storage provider abstraction
+* Centralized error handling
+* Local filesystem storage
+* JSON metadata synchronization
 
 ---
 
-## Installation
+# Planned Features
 
-### Clone the Repository
+* Multi-file selection
+* Bulk download
+* Bulk delete
+* Search and filtering
+* Sorting by name, size, and upload date
+* Drag-and-drop uploads
+* Upload cancellation
+* Upload queue management
+* User authentication
+* JWT authorization
+* Role-based permissions
+* Storage analytics
+* Activity logs
+* LAN file sharing
+* Admin dashboard
+* User dashboard
+
+---
+
+# Architecture
+
+The backend follows a layered architecture to separate responsibilities and improve maintainability.
+
+```text
+Routes
+   │
+Controllers
+   │
+Services
+   │
+Repositories
+   │
+Storage Provider
+   │
+Local Filesystem
+```
+
+The frontend follows a similar separation of concerns.
+
+```text
+Components
+   │
+Services
+   │
+API Layer
+   │
+REST API
+```
+
+---
+
+# Storage
+
+Files are stored directly on the local filesystem.
+
+Metadata is maintained separately to allow fast lookups without scanning the storage directory.
+
+Current metadata includes information such as:
+
+* File name
+* File size
+* MIME type
+* Upload date
+* Storage location
+
+---
+
+# Tech Stack
+
+## Backend
+
+* Node.js
+* Express.js
+* TypeScript
+
+## Frontend
+
+* TypeScript
+* Vite
+* Tailwind CSS
+
+## File Handling
+
+* Multer
+* Node.js File System (fs)
+* Path
+
+## Storage
+
+* Local filesystem
+* JSON metadata
+
+---
+
+# Installation
+
+Clone the repository.
 
 ```bash
 git clone https://github.com/your-username/devvault.git
 cd devvault
 ```
 
-### Install Dependencies
+Install dependencies.
 
 ```bash
 npm install
 ```
 
-### Start Development Server
+Start the development server.
 
 ```bash
 npm run dev
@@ -116,74 +161,60 @@ npm run dev
 
 ---
 
-## Project Goals
+# Project Goals
 
-DevVault aims to provide:
+DevVault is primarily a software engineering project focused on building production-style architecture and practical development skills.
 
-- Self-hosted storage
-- Private file management
-- Simple deployment
-- Extensible architecture
-- Local network file sharing
-- Google Drive-like experience without cloud dependency
+Goals include:
 
----
-
-## Example Workflow
-
-1. User uploads a file.
-2. File is stored in the user's storage directory.
-3. Metadata is generated and synchronized.
-4. User can retrieve metadata without scanning the filesystem.
-5. Files can be downloaded, renamed, moved, or deleted through the API.
+* Clean architecture
+* Scalable project structure
+* Maintainable codebase
+* Real-world backend patterns
+* Modern frontend architecture
+* Self-hosted file management
 
 ---
 
-## Future Admin Panel
+# Roadmap
 
-The planned Admin Panel will provide:
+## Version 1
 
-- User management
-- File monitoring
-- Storage tracking
-- Transaction logs
-- Activity auditing
-- Server overview
+* File upload
+* File download
+* File deletion
+* File rename
+* Metadata management
+* Upload progress tracking
 
----
+## Version 2
 
-## Future User Dashboard
+* Bulk file operations
+* Search
+* Sorting
+* Upload queue
+* Drag-and-drop uploads
 
-The planned User Dashboard will provide:
+## Future
 
-- File management interface
-- Folder navigation
-- Upload and download controls
-- Account settings
-- Storage usage statistics
-
----
-
-## Security Roadmap
-
-Planned security features include:
-
-- JWT Authentication
-- Access control
-- Protected API routes
-- Role-based permissions
-- Audit logging
+* Authentication
+* Authorization
+* User accounts
+* Dashboards
+* LAN sharing
+* Analytics
+* Activity logs
 
 ---
 
-## Contributing
+# Contributing
 
-Contributions, suggestions, and feedback are welcome.
+Contributions, ideas, and feedback are welcome.
 
-Feel free to fork the repository and submit pull requests.
+Feel free to open issues or submit pull requests.
 
 ---
 
-## License
+# License
 
 This project is licensed under the MIT License.

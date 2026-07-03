@@ -6,7 +6,6 @@ export interface FileMetaData {
     extension: string;
     size: number;
     uploadedAt: number;
-    folderId: string | null;
 }
 
 export interface ApiResponse<T> {
