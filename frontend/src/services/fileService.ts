@@ -1,4 +1,4 @@
-import { deleteFile, downloadFile, getFileInfo, getFiles } from "../api/file.api";
+import { deleteFile, downloadFile, getFileInfo, getFiles, uploadFiles } from "../api/file.api";
 import { confirmDialog } from "../components/confirmDialog ";
 import { updateInfoDialog } from "../components/fileInfoDialog";
 import { renderFiles } from "../components/renderList";
@@ -7,7 +7,7 @@ import { toast } from "./toastService";
 export async function fileListRenderingService(): Promise<void> {
     const response = await getFiles();
 
-    if (!response) return;
+    if (response === undefined) return;
 
     const responseData = response.data;
 
@@ -70,5 +70,24 @@ export async function deleteService(fileID: string) {
         const response = await deleteFile(fileID);
         if (!response) return;
         toast.success(`${response.message}`)
+    }
+}
+
+export async function uploadService(uploadState: File[]) {
+    const confirmed = await confirmDialog.ask({
+        title: "Confirm your upload",
+        message: "Please review your file before submitting. Once uploaded, this action cannot be undone.",
+        confirmText: "Confirm & Upload",
+        cancelText: "Change File",
+        danger: false
+    });
+
+    if (!confirmed) return;
+
+    if (confirmed === true) {
+        await uploadFiles(uploadState);
+        return true;
+    } else {
+        return false;
     }
 }

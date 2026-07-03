@@ -1,4 +1,6 @@
 import type { ApiResponse, FileInfo, FileListItemDto, PaginatedResponse } from "../@types/file.type";
+import { fileUploadingState, updateProgress } from "../components/uploadDialog";
+import { toast } from "../services/toastService";
 import { apiResponse } from "./file.api.helper";
 
 export const getFiles = async () => {
@@ -44,12 +46,41 @@ export async function uploadFiles(files: File[]) {
             formData.append("files", file);
         }
 
-        const response = await fetch("/api/file/upload", {
-            method: 'POST',
-            body: formData
-        });
+        const xhr = new XMLHttpRequest();
 
-        return await apiResponse<ApiResponse<any>>(response);
+        let lastLoaded = 0;
+        let lastTime = performance.now();
+
+        xhr.upload.onprogress = (event) => {
+            if (!event.lengthComputable) return;
+
+            const now = performance.now();
+            const timeDiff = (now - lastTime) / 1000;
+            const loadedDiff = event.loaded - lastLoaded;
+
+            const speed = loadedDiff / timeDiff;
+
+            updateProgress(event.loaded, event.total, speed);
+            fileUploadingState(true);
+
+            lastLoaded = event.loaded;
+            lastTime = now;
+        }
+
+        xhr.onload = async () => {
+            const response = JSON.parse(xhr.responseText);
+            toast.success(`${response.message}`);
+            fileUploadingState(false);
+        }
+
+        xhr.onerror = () => {
+            toast.error("Network Error");
+            fileUploadingState(false);
+        }
+
+        xhr.open("POST", "/api/file/upload");
+
+        xhr.send(formData);
 
     } catch (err) {
         console.error("Failed to fetch files:", err);

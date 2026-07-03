@@ -25,3 +25,7 @@
         @apply text-zinc-400 font-medium text-sm;
     }
 }
+
+.progress-container {
+    @apply flex flex-col gap-2;
+}

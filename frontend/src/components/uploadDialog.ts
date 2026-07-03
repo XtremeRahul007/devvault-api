@@ -1,14 +1,21 @@
-import { uploadFiles } from "../api/file.api";
-import { confirmDialog } from "./confirmDialog ";
+import { uploadService } from "../services/fileService";
 import { formatFileSize } from "./formatFileSize";
 import { validatedFiles } from "./validators";
 
 const maxFileSize = Number(import.meta.env.VITE_MAX_FILE_SIZE);
 
 let uploadState: File[] = [];
+let isFilesUploading: boolean = false;
+let progressElements: {
+    size: HTMLDivElement;
+    percentage: HTMLDivElement;
+    bar: HTMLDivElement;
+    speed: HTMLDivElement;
+} | null = null;
+
 
 export function initUploadFile() {
-    const menu = createUplodContainer();
+    const menu = createUploadContainer();
 
     bindOpenHandler(menu);
     bindCloseHandler(menu);
@@ -16,7 +23,7 @@ export function initUploadFile() {
     bindSubmit(menu);
 }
 
-const createUplodContainer = () => {
+const createUploadContainer = () => {
     const dialog = document.createElement('dialog');
 
     dialog.className = "upload-dialog";
@@ -48,7 +55,9 @@ const bindOpenHandler = (menu: HTMLDialogElement) => {
     uploadBtn?.addEventListener("click", () => {
         menu.showModal();
         resetInput();
-        removeFileInfoList();
+        if (!isFilesUploading) {
+            removeFileInfoList();
+        }
     });
 };
 
@@ -58,7 +67,11 @@ const bindCloseHandler = (menu: HTMLDialogElement) => {
         if (!target.closest(".upload-wrapper") || target.closest("#closeUploadComtainer")) {
             menu.close();
             resetInput();
+        }
+
+        if (!isFilesUploading && (!target.closest(".upload-wrapper") || target.closest("#closeUploadComtainer"))) {
             removeFileInfoList();
+            removeProgressContainer();
         }
     });
 };
@@ -93,19 +106,10 @@ const bindSubmit = (menu: HTMLDialogElement) => {
             inputField.click();
             return;
         }
-
-        const confirmed = await confirmDialog.ask({
-            title: "Confirm your upload",
-            message: "Please review your file before submitting. Once uploaded, this action cannot be undone.",
-            confirmText: "Confirm & Upload",
-            cancelText: "Change File",
-            danger: false
-        });
-
-        if (!confirmed) return
-
-        if (confirmed === true) {
-            uploadFiles(uploadState);
+        const serviceCalled = await uploadService(uploadState);
+        if (serviceCalled) {
+            createProgressBar(menu);
+            resetInput();
         }
     });
 };
@@ -143,14 +147,67 @@ const createFileInfoList = (fileList: File[]) => {
     return container;
 }
 
+const createProgressBar = (menu: HTMLDialogElement) => {
+    const wrapper = menu.querySelector(".upload-wrapper") as HTMLDivElement;
+    const div = document.createElement('div');
+    div.className = "progress-container";
+
+    div.innerHTML = `
+        <div id="progressData" class="flex flex-row justify-between mx-1">
+            <div id="progressPercentage" class="text-(--secondary-color)">??%</div>
+            <div id="progressSize" class="text-(--secondary-color)">??/??</div>
+        </div>
+        <div class="flex flex-row p-2 rounded-lg primary-inset-container">
+            <div id="progressBar" class="h-2 rounded-lg bg-(--blue-element-bg) depth-container transition-all duration-100 ease-in-out"></div>
+        </div>
+        <div id="uploadSpeed" class="text-(--secondary-color)"></div>
+        `;
+
+    wrapper.append(div);
+
+    progressElements = {
+        size: div.querySelector("#progressSize") as HTMLDivElement,
+        percentage: div.querySelector("#progressPercentage") as HTMLDivElement,
+        bar: div.querySelector("#progressBar") as HTMLDivElement,
+        speed: div.querySelector("#uploadSpeed") as HTMLDivElement
+    }
+}
+
 const removeFileInfoList = () => {
-    const infoList = document.querySelector(".file-info-container") as HTMLDivElement;
-    infoList?.remove();
+    document.querySelector(".file-info-container")?.remove();
     uploadState = [];
+}
+
+const removeProgressContainer = () => {
+    document.querySelector(".progress-container")?.remove();
+    progressElements = null;
 }
 
 const resetInput = () => {
     const inputField = document.getElementById("fileInput") as HTMLInputElement;
     if (!inputField) return;
     inputField.value = '';
+    uploadState = [];
+}
+
+export const updateProgress = (loaded: number, totalSize: number, speed: number) => {
+    if (!progressElements) return;
+    const percent = Math.round((loaded / totalSize) * 100);
+
+    progressElements.size.textContent = `${formatFileSize(loaded)}/${formatFileSize(totalSize)}`;
+    progressElements.percentage.textContent = `${percent}%`;
+    progressElements.bar.style.width = `${percent}%`;
+    progressElements.speed.textContent = `Current upload speed: ${formatFileSize(speed)}/s`;
+}
+
+export const fileUploadingState = (isUploading: boolean) => {
+    const submitBtn = document.querySelector("#submitUpload") as HTMLButtonElement;
+
+    isFilesUploading = isUploading;
+
+    if (isUploading) {
+        submitBtn.disabled = true;
+    } else {
+        submitBtn.disabled = false;
+    }
 }
