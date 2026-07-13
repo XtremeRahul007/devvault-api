@@ -6,86 +6,86 @@ import { applyFilters, applyPagination, applySorting } from "../utils/uploadQuer
 import { createPaginatedResponse } from "../utils/pagination.utils.js";
 
 export async function createUploadService(files: Express.Multer.File[]): Promise<ApiResponse<string>> {
-    for (const file of files) {
-        const storedName = file.filename;
-        const id = path.parse(storedName).name;
-        const extension = path.extname(file.originalname);
+  for (const file of files) {
+    const storedName = file.filename;
+    const id = path.parse(storedName).name;
+    const extension = path.extname(file.originalname);
 
-        const metadata: FileMetaData = {
-            id,
-            originalName: file.originalname,
-            storedName,
-            mimeType: file.mimetype,
-            extension,
-            size: file.size,
-            uploadedAt: Date.now(),
-        }
-        await FileRepository.create(metadata);
+    const metadata: FileMetaData = {
+      id,
+      originalName: file.originalname,
+      storedName,
+      mimeType: file.mimetype,
+      extension,
+      size: file.size,
+      uploadedAt: Date.now(),
     }
+    await FileRepository.create(metadata);
+  }
 
-    return {
-        message: "Upload successfully."
-    }
+  return {
+    message: "Upload successfully."
+  }
 }
 
 export async function getFileInfoByIdService(id: string): Promise<ApiResponse<FileInfo>> {
-    const metadata = await FileRepository.getById(id);
-    return {
-        data: {
-            name: metadata.originalName,
-            extension: metadata.extension,
-            size: metadata.size,
-            uploadedAt: metadata.uploadedAt
-        },
-        message: "Information fetched Successfully"
-    };
+  const metadata = await FileRepository.getById(id);
+  return {
+    data: {
+      name: metadata.originalName,
+      extension: metadata.extension,
+      size: metadata.size,
+      uploadedAt: metadata.uploadedAt
+    },
+    message: "Information fetched Successfully"
+  };
 }
 
 export async function getUploadByIdService(id: string): Promise<ApiResponse<DownloadFileResult>> {
-    const metadata = await FileRepository.getById(id);
+  const metadata = await FileRepository.getById(id);
 
-    return {
-        data: {
-            metadata,
-            filePath: getFilePath(metadata.storedName)
-        },
-        message: `${metadata.originalName} is ready for download.`
-    }
+  return {
+    data: {
+      metadata,
+      filePath: getFilePath(metadata.storedName)
+    },
+    message: `${metadata.originalName} is ready for download.`
+  }
 }
 
 export async function deleteUploadService(id: string): Promise<ApiResponse<DeleteFileResponse>> {
-    const metadata = await FileRepository.getById(id);
-    await FileRepository.deleteStoredFile(metadata.storedName, metadata.originalName);
-    await FileRepository.deleteById(metadata.id);
-    return {
-        message: `${metadata.originalName} deleted successfully`
-    };
+  const metadata = await FileRepository.getById(id);
+  await FileRepository.deleteStoredFile(metadata.storedName);
+  await FileRepository.deleteById(metadata.id);
+  return {
+    message: `${metadata.originalName} deleted successfully`
+  };
 }
 
 export async function renameUploadService(id: string, data: UpdateFileInput) {
-    return await FileRepository.update(id, data);
+  return await FileRepository.update(id, data);
 }
 
 export async function getAllUploadsService(query: UploadQuery): Promise<ApiResponse<PaginatedResponse<FileListItemDto>>> {
-    let files = await FileRepository.getAll();
+  let files = await FileRepository.getAll();
 
-    files = applyFilters(files, query);
+  files = applyFilters(files, query);
 
-    const totalFiles = files.length;
+  const totalFiles = files.length;
 
-    files = applySorting(files, query);
+  files = applySorting(files, query);
 
-    files = applyPagination(files, query);
+  files = applyPagination(files, query);
 
-    const filesList = files.map(file => ({
-        id: file.id,
-        name: file.originalName,
-        extension: file.extension,
-        size: file.size
-    }));
-    const result = createPaginatedResponse(filesList, totalFiles, query.page, query.limit);
-    return {
-        data: result,
-        message: "Files fetched successfully"
-    };
+  const filesList = files.map(file => ({
+    id: file.id,
+    name: file.originalName,
+    extension: file.extension,
+    size: file.size
+  }));
+  const result = createPaginatedResponse(filesList, totalFiles, query.page, query.limit);
+  return {
+    data: result,
+    message: "Files fetched successfully"
+  };
 }

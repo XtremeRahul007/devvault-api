@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { deleteFile, downloadFile, getAllUploads, getFileInfo, renameUpload, uploadFiles } from "../controllers/file.controller.js";
 import { upload } from "../middleware/upload.middleware.js";
 

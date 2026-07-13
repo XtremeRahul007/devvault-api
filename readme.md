@@ -143,7 +143,7 @@ Current metadata includes information such as:
 Clone the repository.
 
 ```bash
-git clone https://github.com/your-username/devvault.git
+git clone https://github.com/XtremeRahul007/devvault.git
 cd devvault
 ```
 
