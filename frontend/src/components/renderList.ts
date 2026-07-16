@@ -13,7 +13,7 @@ export function renderFiles(files: FileListItemDto[]) {
         li.dataset.fileId = file.id;
 
         li.innerHTML = `
-            <div class="grid grid-cols-[auto_1fr_auto] gap-2 text-base items-baseline-last">
+            <div class="grid grid-cols-[auto_1fr_auto] gap-2 text-base items-baseline-last select-none">
                 <div class="fiv-viv fiv-size-sm fiv-icon-${file.extension.slice(1)}"></div>
                 <div class="text-nowrap overflow-x-auto scrollbar-none">${file.name}</div>
                 <div class="text-zinc-400 text-xs">${formatFileSize(file.size)}</div>

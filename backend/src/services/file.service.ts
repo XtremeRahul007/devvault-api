@@ -58,7 +58,7 @@ export async function deleteUploadService(id: string): Promise<ApiResponse<Delet
   await FileRepository.deleteStoredFile(metadata.storedName);
   await FileRepository.deleteById(metadata.id);
   return {
-    message: `${metadata.originalName} deleted successfully`
+    message: `${metadata.originalName} deleted successfully`,
   };
 }
 

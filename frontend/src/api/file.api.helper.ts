@@ -1,12 +1,10 @@
-import { toast } from "../services/toastService";
+export async function apiResponse<T>(response: Response): Promise<T | undefined> {
+  if (!response.ok) {
+    console.log(response);
+    return;
+  }
 
-export async function apiResponse<T>(response: Response): Promise<T | undefined>{
-    if (!response.ok) {
-        toast.error(`API request failed with status ${response.status}`);
-        return undefined;
-    }
-
-    return response.json() as Promise<T>;
+  return response.json() as Promise<T>;
 }
 
 /*

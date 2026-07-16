@@ -5,89 +5,103 @@ import { renderFiles } from "../components/renderList";
 import { toast } from "./toastService";
 
 export async function fileListRenderingService(): Promise<void> {
-    const response = await getFiles();
+  const response = await getFiles();
 
-    if (response === undefined) return;
+  if (response === undefined) return;
 
-    const responseData = response.data;
+  const responseData = response.data;
 
-    if (!responseData) {
-        toast.error(`${response.error}`);
-    }
+  if (response.error !== undefined) {
+    toast.error(response.error);
+    return;
+  }
 
-    const files = responseData.data;
+  const files = responseData.data;
 
-    renderFiles(files);
+  renderFiles(files);
 
-    toast.success(`${response.data.totalFiles} ${response.message}`);
+  toast.success(`${response.data.totalFiles} ${response.message}`);
 }
 
 export async function fileInfoService(fileID: string): Promise<void> {
-    const response = await getFileInfo(fileID);
+  const response = await getFileInfo(fileID);
 
-    if (!response) return;
+  if (!response) return;
 
-    const responseData = response.data;
+  const responseData = response.data;
 
-    if (!responseData) {
-        toast.error(`${response.error}`);
-    }
+  if (response.error !== undefined) {
+    toast.error(`${response.error}`);
+    return;
+  }
 
-    toast.success(`${response.message}`);
+  toast.success(`${response.message}`);
 
-    updateInfoDialog(responseData);
+  updateInfoDialog(responseData);
 }
 
 export async function downloadService(fileID: string) {
-    const confirmed = await confirmDialog.ask({
-        title: "Download File?",
-        message: "Would you like to download this file to your device?",
-        confirmText: "Download",
-        cancelText: "Cancel"
-    });
+  const confirmed = await confirmDialog.ask({
+    title: "Download File?",
+    message: "Would you like to download this file to your device?",
+    confirmText: "Download",
+    cancelText: "Cancel"
+  });
 
-    if (!confirmed) return;
+  if (!confirmed) return;
 
-    if (confirmed === true) {
-        const response = await downloadFile(fileID);
-        if (!response) return;
-        toast.success(`${response.data.name} is ready for download.`);
+  if (confirmed === true) {
+    const response = await downloadFile(fileID);
+    if (!response) return;
+
+    if (response.error !== undefined) {
+      toast.error(response.error);
+      return;
     }
+
+    toast.success(`${response.data.name} is ready for download.`);
+  }
 }
 
 export async function deleteService(fileID: string) {
-    const confirmed = await confirmDialog.ask({
-        title: "Delete File?",
-        message: "Are you sure you want to permanently delete this file? This action cannot be undone.",
-        confirmText: "Delete",
-        cancelText: "Cancel",
-        danger: true
-    });
+  const confirmed = await confirmDialog.ask({
+    title: "Delete File?",
+    message: "Are you sure you want to permanently delete this file? This action cannot be undone.",
+    confirmText: "Delete",
+    cancelText: "Cancel",
+    danger: true
+  });
 
-    if (!confirmed) return;
+  if (!confirmed) return;
 
-    if (confirmed === true) {
-        const response = await deleteFile(fileID);
-        if (!response) return;
-        toast.success(`${response.message}`)
+  if (confirmed === true) {
+    const response = await deleteFile(fileID);
+    if (!response) return;
+
+    if (response.error !== undefined) {
+      toast.error(response.error);
+      return;
     }
+
+    toast.success(`${response.message}`)
+  }
 }
 
 export async function uploadService(uploadState: File[]) {
-    const confirmed = await confirmDialog.ask({
-        title: "Confirm your upload",
-        message: "Please review your file before submitting. Once uploaded, this action cannot be undone.",
-        confirmText: "Confirm & Upload",
-        cancelText: "Change File",
-        danger: false
-    });
+  const confirmed = await confirmDialog.ask({
+    title: "Confirm your upload",
+    message: "Please review your file before submitting. Once uploaded, this action cannot be undone.",
+    confirmText: "Confirm & Upload",
+    cancelText: "Change File",
+    danger: false
+  });
 
-    if (!confirmed) return;
+  if (!confirmed) return;
 
-    if (confirmed === true) {
-        await uploadFiles(uploadState);
-        return true;
-    } else {
-        return false;
-    }
+  if (confirmed === true) {
+    await uploadFiles(uploadState);
+    return true;
+  } else {
+    return false;
+  }
 }

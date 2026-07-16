@@ -1,37 +1,37 @@
 export interface FileMetaData {
-    id: string;
-    originalName: string;
-    storedName: string;
-    mimeType: string;
-    extension: string;
-    size: number;
-    uploadedAt: number;
+  id: string;
+  originalName: string;
+  storedName: string;
+  mimeType: string;
+  extension: string;
+  size: number;
+  uploadedAt: number;
 }
 
 export interface FileListItemDto {
-    id: string;
-    name: string;
-    extension: string;
-    size: number;
+  id: string;
+  name: string;
+  extension: string;
+  size: number;
 }
 
 export interface FileInfo {
-    name: string;
-    extension: string;
-    size: number;
-    uploadedAt: number;
+  name: string;
+  extension: string;
+  size: number;
+  uploadedAt: number;
 }
 
 export interface PaginatedResponse<T> {
-    page: number;
-    limit: number;
-    totalFiles: number;
-    totalPages: number;
-    data: T[];
+  page: number;
+  limit: number;
+  totalFiles: number;
+  totalPages: number;
+  data: T[];
 }
 
 export interface ApiResponse<T> {
-    data: T;
-    message: string;
-    error: string;
+  data: T;
+  message: string;
+  error: string;
 }
