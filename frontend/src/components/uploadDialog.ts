@@ -13,7 +13,6 @@ let progressElements: {
   speed: HTMLDivElement;
 } | null = null;
 
-
 export function initUploadFile() {
   const menu = createUploadContainer();
 
@@ -24,7 +23,7 @@ export function initUploadFile() {
 }
 
 const createUploadContainer = () => {
-  const dialog = document.createElement('dialog');
+  const dialog = document.createElement("dialog");
 
   dialog.className = "upload-dialog";
 
@@ -32,7 +31,7 @@ const createUploadContainer = () => {
     <div class="upload-wrapper depth-container">
         <div class="flex flex-row justify-between">
             <p class="text-xl text-(--secondary-color)">Upload your files</p>
-            <button type="button" class="primary-button active:scale-95 transition-transform duration-150 ease-in-out" id="closeUploadComtainer">
+            <button type="button" class="flex primary-button active:scale-95 transition-transform duration-150 ease-in-out" id="closeUploadComtainer">
                 <span class="svg-gr svg-size-sm svg-close"></span>
             </button>
         </div>
@@ -47,10 +46,12 @@ const createUploadContainer = () => {
 
   document.body.append(dialog);
   return dialog as HTMLDialogElement;
-}
+};
 
 const bindOpenHandler = (menu: HTMLDialogElement) => {
-  const uploadBtn = document.getElementById("uploadButton") as HTMLButtonElement;
+  const uploadBtn = document.getElementById(
+    "uploadButton",
+  ) as HTMLButtonElement;
 
   uploadBtn?.addEventListener("click", () => {
     menu.showModal();
@@ -64,12 +65,19 @@ const bindOpenHandler = (menu: HTMLDialogElement) => {
 const bindCloseHandler = (menu: HTMLDialogElement) => {
   menu.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
-    if (!target.closest(".upload-wrapper") || target.closest("#closeUploadComtainer")) {
+    if (
+      !target.closest(".upload-wrapper") ||
+      target.closest("#closeUploadComtainer")
+    ) {
       menu.close();
       resetInput();
     }
 
-    if (!isFilesUploading && (!target.closest(".upload-wrapper") || target.closest("#closeUploadComtainer"))) {
+    if (
+      !isFilesUploading &&
+      (!target.closest(".upload-wrapper") ||
+        target.closest("#closeUploadComtainer"))
+    ) {
       removeFileInfoList();
       removeProgressContainer();
     }
@@ -87,7 +95,7 @@ const bindFileSelection = () => {
 
     const validResult = validatedFiles(files);
     if (validResult !== null) {
-      uploadState = validResult
+      uploadState = validResult;
     } else {
       return;
     }
@@ -98,7 +106,6 @@ const bindFileSelection = () => {
 
 const bindSubmit = (menu: HTMLDialogElement) => {
   const submit = menu.querySelector("#submitUpload") as HTMLButtonElement;
-
 
   submit.addEventListener("click", async () => {
     const inputField = document.getElementById("fileInput") as HTMLInputElement;
@@ -120,9 +127,9 @@ const createFileInfoList = (fileList: File[]) => {
 
   const wrapper = document.querySelector(".upload-wrapper") as HTMLDivElement;
 
-  const container = document.createElement('div');
-  const head = document.createElement('p');
-  const list = document.createElement('ol');
+  const container = document.createElement("div");
+  const head = document.createElement("p");
+  const list = document.createElement("ol");
 
   container.className = "file-info-container";
   head.className = "file-info-header";
@@ -133,7 +140,7 @@ const createFileInfoList = (fileList: File[]) => {
   const fragment = document.createDocumentFragment();
 
   let itemNumber: number = 1;
-  fileList.forEach(file => {
+  fileList.forEach((file) => {
     const li = document.createElement("li");
     li.innerHTML = `<p>${itemNumber}. ${file.name} (${formatFileSize(file.size)})</p>`;
 
@@ -146,11 +153,11 @@ const createFileInfoList = (fileList: File[]) => {
   wrapper?.append(container);
 
   return container;
-}
+};
 
 const createProgressBar = (menu: HTMLDialogElement) => {
   const wrapper = menu.querySelector(".upload-wrapper") as HTMLDivElement;
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.className = "progress-container";
 
   div.innerHTML = `
@@ -170,28 +177,32 @@ const createProgressBar = (menu: HTMLDialogElement) => {
     size: div.querySelector("#progressSize") as HTMLDivElement,
     percentage: div.querySelector("#progressPercentage") as HTMLDivElement,
     bar: div.querySelector("#progressBar") as HTMLDivElement,
-    speed: div.querySelector("#uploadSpeed") as HTMLDivElement
-  }
-}
+    speed: div.querySelector("#uploadSpeed") as HTMLDivElement,
+  };
+};
 
 const removeFileInfoList = () => {
   document.querySelector(".file-info-container")?.remove();
   uploadState = [];
-}
+};
 
 const removeProgressContainer = () => {
   document.querySelector(".progress-container")?.remove();
   progressElements = null;
-}
+};
 
 const resetInput = () => {
   const inputField = document.getElementById("fileInput") as HTMLInputElement;
   if (!inputField) return;
-  inputField.value = '';
+  inputField.value = "";
   uploadState = [];
-}
+};
 
-export const updateProgress = (loaded: number, totalSize: number, speed: number) => {
+export const updateProgress = (
+  loaded: number,
+  totalSize: number,
+  speed: number,
+) => {
   if (!progressElements) return;
   const percent = Math.round((loaded / totalSize) * 100);
 
@@ -199,10 +210,12 @@ export const updateProgress = (loaded: number, totalSize: number, speed: number)
   progressElements.percentage.textContent = `${percent}%`;
   progressElements.bar.style.width = `${percent}%`;
   progressElements.speed.textContent = `Current upload speed: ${formatFileSize(speed)}/s`;
-}
+};
 
 export const fileUploadingState = (isUploading: boolean) => {
-  const submitBtn = document.querySelector("#submitUpload") as HTMLButtonElement;
+  const submitBtn = document.querySelector(
+    "#submitUpload",
+  ) as HTMLButtonElement;
   const inputField = document.querySelector("#fileInput") as HTMLInputElement;
 
   isFilesUploading = isUploading;
@@ -214,4 +227,4 @@ export const fileUploadingState = (isUploading: boolean) => {
     inputField.disabled = false;
     submitBtn.disabled = false;
   }
-}
+};

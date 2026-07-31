@@ -1,5 +1,11 @@
-import { deleteFile, downloadFile, getFileInfo, getFiles, uploadFiles } from "../api/file.api";
-import { confirmDialog } from "../components/confirmDialog ";
+import {
+  deleteFile,
+  downloadFile,
+  getFileInfo,
+  getFiles,
+  uploadFiles,
+} from "../api/file.api";
+import { confirmDialog } from "../components/confirmDialog";
 import { updateInfoDialog } from "../components/fileInfoDialog";
 import { renderFiles } from "../components/renderList";
 import { toast } from "./toastService";
@@ -45,7 +51,7 @@ export async function downloadService(fileID: string) {
     title: "Download File?",
     message: "Would you like to download this file to your device?",
     confirmText: "Download",
-    cancelText: "Cancel"
+    cancelText: "Cancel",
   });
 
   if (!confirmed) return;
@@ -66,10 +72,11 @@ export async function downloadService(fileID: string) {
 export async function deleteService(fileID: string) {
   const confirmed = await confirmDialog.ask({
     title: "Delete File?",
-    message: "Are you sure you want to permanently delete this file? This action cannot be undone.",
+    message:
+      "Are you sure you want to permanently delete this file? This action cannot be undone.",
     confirmText: "Delete",
     cancelText: "Cancel",
-    danger: true
+    danger: true,
   });
 
   if (!confirmed) return;
@@ -83,17 +90,18 @@ export async function deleteService(fileID: string) {
       return;
     }
 
-    toast.success(`${response.message}`)
+    toast.success(`${response.message}`);
   }
 }
 
 export async function uploadService(uploadState: File[]) {
   const confirmed = await confirmDialog.ask({
     title: "Confirm your upload",
-    message: "Please review your file before submitting. Once uploaded, this action cannot be undone.",
+    message:
+      "Please review your file before submitting. Once uploaded, this action cannot be undone.",
     confirmText: "Confirm & Upload",
     cancelText: "Change File",
-    danger: false
+    danger: false,
   });
 
   if (!confirmed) return;

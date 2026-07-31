@@ -11,3 +11,4 @@
 @import "./components/infoDialog.css";
 @import "./components/uploadDialog.css";
 @import "./components/toast.css";
+@import "utils/globalVariables.css";

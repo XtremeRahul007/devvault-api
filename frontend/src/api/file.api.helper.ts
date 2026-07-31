@@ -1,4 +1,6 @@
-export async function apiResponse<T>(response: Response): Promise<T | undefined> {
+export async function apiResponse<T>(
+  response: Response,
+): Promise<T | undefined> {
   if (!response.ok) {
     console.log(response);
     return;
@@ -44,6 +46,6 @@ export function getFilenameFromResponse(response: Response): string | null {
         return asciiMatch[1];
     }
 
-    return null;   
+    return null;
 }
 */

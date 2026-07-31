@@ -1,37 +1,41 @@
-import type { ApiResponse, FileInfo, FileListItemDto, PaginatedResponse } from "../@types/file.type";
+import type {
+  ApiResponse,
+  FileInfo,
+  FileListItemDto,
+  PaginatedResponse,
+} from "../@types/file.type";
 import { fileUploadingState, updateProgress } from "../components/uploadDialog";
 import { toast } from "../services/toastService";
 import { apiResponse } from "./file.api.helper";
 
 export const getFiles = async () => {
   try {
-    const response = await fetch("/api/file", { method: 'GET' });
-    return await apiResponse<ApiResponse<PaginatedResponse<FileListItemDto>>>(response);
-
+    const response = await fetch("/api/file", { method: "GET" });
+    return await apiResponse<ApiResponse<PaginatedResponse<FileListItemDto>>>(
+      response,
+    );
   } catch (err) {
     console.error("Failed to fetch files:", err);
   }
-}
+};
 
 export const getFileInfo = async (fileId: string) => {
   try {
-    const response = await fetch(`/api/file/info/${fileId}`, { method: 'GET' });
+    const response = await fetch(`/api/file/info/${fileId}`, { method: "GET" });
 
     return await apiResponse<ApiResponse<FileInfo>>(response);
-
   } catch (err) {
     console.error("Failed to fetch files:", err);
   }
-}
+};
 
 export const downloadFile = async (fileId: string) => {
   try {
     window.location.href = `/api/file/download/${fileId}`;
 
-    const response = await fetch(`/api/file/info/${fileId}`, { method: 'GET' });
+    const response = await fetch(`/api/file/info/${fileId}`, { method: "GET" });
 
     return await apiResponse<ApiResponse<FileInfo>>(response);
-
   } catch (err) {
     console.error("Failed to fetch files:", err);
   }
@@ -64,35 +68,34 @@ export async function uploadFiles(files: File[]) {
 
       lastLoaded = event.loaded;
       lastTime = now;
-    }
+    };
 
     xhr.onload = async () => {
       const response = JSON.parse(xhr.responseText);
       toast.success(`${response.message}`);
       fileUploadingState(false);
-    }
+    };
 
     xhr.onerror = () => {
       toast.error("Network Error");
       fileUploadingState(false);
-    }
+    };
 
     xhr.open("POST", "/api/file/upload");
 
     xhr.send(formData);
-
   } catch (err) {
     console.error("Failed to fetch files:", err);
   }
-
 }
 
 export async function deleteFile(fileId: string) {
   try {
-    const response = await fetch(`/api/file/delete/${fileId}`, { method: 'DELETE' });
+    const response = await fetch(`/api/file/delete/${fileId}`, {
+      method: "DELETE",
+    });
 
     return await apiResponse<ApiResponse<any>>(response);
-
   } catch (err) {
     console.error("Failed to fetch files:", err);
   }
