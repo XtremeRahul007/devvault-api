@@ -66,7 +66,7 @@ export function initPopUpController() {
 const createMenu = () => {
   const menu = document.createElement("ul");
 
-  menu.id = "file-menu";
+  menu.id = "fileMenu";
   menu.classList.add("popupMenu", "depth-container");
   menu.popover = "auto";
 

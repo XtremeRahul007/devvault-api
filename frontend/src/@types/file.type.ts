@@ -35,3 +35,7 @@ export interface ApiResponse<T> {
   message: string;
   error: string;
 }
+
+export interface multiFileIDListObj {
+  fileIDList: string[];
+}

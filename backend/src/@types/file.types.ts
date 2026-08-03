@@ -56,6 +56,10 @@ export interface PaginatedResponse<T> {
   data: T[];
 }
 
+export interface multiFileIDList {
+  fileIDList: string[]
+}
+
 export type UpdateFileInput = Partial<Pick<FileMetaData, "originalName">>;
 
 export type SortField = "name" | "size" | "uploadedAt" | undefined;

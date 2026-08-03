@@ -6,6 +6,7 @@ import type {
 } from "../@types/file.type";
 import { fileUploadingState, updateProgress } from "../components/uploadDialog";
 import { toast } from "../services/toastService";
+import { refreshFileList } from "../utils/refreshFileListHandler";
 import { apiResponse } from "./file.api.helper";
 
 export const getFiles = async () => {
@@ -73,6 +74,7 @@ export async function uploadFiles(files: File[]) {
     xhr.onload = async () => {
       const response = JSON.parse(xhr.responseText);
       toast.success(`${response.message}`);
+      refreshFileList();
       fileUploadingState(false);
     };
 

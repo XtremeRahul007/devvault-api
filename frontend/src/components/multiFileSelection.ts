@@ -1,6 +1,10 @@
-import { toast } from "../services/toastService";
+import {
+  multipleFileDeleteService,
+  multipleFileDownloadService,
+} from "../services/multiSelectionService";
 
 let inSelection: boolean = true;
+let isAllSelected: boolean = false;
 
 let CheckBoxCollection: HTMLInputElement[];
 let CheckedFileLIst: HTMLInputElement[];
@@ -44,7 +48,11 @@ function getCheckBoxCollection() {
 
 function selectionHandler() {
   objEl.counter.textContent = "Files Selected: 0";
-  inSelection ? selectionDisabled() : selectionEnabled();
+  if (inSelection) {
+    selectionDisabled();
+  } else {
+    selectionEnabled();
+  }
 }
 
 function selectionEnabled(): void {
@@ -67,6 +75,7 @@ function selectionEnabled(): void {
   objEl.counter.style.display = "";
   objEl.selectBtnIco.className = "svg-gr svg-size-sm svg-close";
   inSelection = true;
+  isAllSelected = false;
 }
 
 function selectionDisabled(): void {
@@ -96,23 +105,26 @@ function selectedFilesCounter() {
   objEl.menu.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
     if (target.closest(".check-li") || target.matches("[data-file-checkbox]")) {
-      CheckedFileLIst = Array.from(
-        objEl.menu.querySelectorAll(
-          "[data-file-checkbox]:checked",
-        ) as NodeListOf<HTMLInputElement>,
-      );
-      const checkedCount = CheckedFileLIst.length;
-
-      objEl.counter.textContent = `Files Selected: ${checkedCount}`;
+      updateCheckList();
     }
   });
+}
+
+function updateCheckList() {
+  CheckedFileLIst = Array.from(
+    objEl.menu.querySelectorAll(
+      "[data-file-checkbox]:checked",
+    ) as NodeListOf<HTMLInputElement>,
+  );
+  const checkedCount = CheckedFileLIst.length;
+
+  objEl.counter.textContent = `Files Selected: ${checkedCount}`;
 }
 
 function getSelectedFileID(): string[] {
   let selectedFileIds: string[] = [];
 
   if (!CheckedFileLIst || CheckedFileLIst.length === 0) {
-    toast.error("No file selected!");
     return [];
   }
 
@@ -123,8 +135,23 @@ function getSelectedFileID(): string[] {
   return selectedFileIds;
 }
 
+function selectAllFiles() {
+  if (isAllSelected === false) {
+    for (const checkbox of CheckBoxCollection) {
+      checkbox.checked = true;
+      isAllSelected = true;
+    }
+  } else if (isAllSelected === true) {
+    for (const checkbox of CheckBoxCollection) {
+      checkbox.checked = false;
+      isAllSelected = false;
+    }
+  }
+  updateCheckList();
+}
+
 function actionMenuHandler() {
-  objEl.actionMenu.addEventListener("click", (e) => {
+  objEl.actionMenu.addEventListener("click", async (e) => {
     const target = e.target as HTMLElement;
     const actionBtn = target.closest("li");
     if (!actionBtn) return;
@@ -134,16 +161,26 @@ function actionMenuHandler() {
 
     switch (action) {
       case "SelectAll":
-        // api service call
+        selectAllFiles();
         break;
 
       case "DeleteSelected":
-        // api service call
+        await multipleFileDeleteService(selectedFileIds);
         break;
 
       case "DownloadSelected":
-        // api service call
+        await multipleFileDownloadService(selectedFileIds);
         break;
     }
   });
+}
+
+export function updateSelectionState() {
+  getCheckBoxCollection();
+  updateCheckList();
+  if (inSelection === true) {
+    selectionEnabled();
+  } else {
+    selectionDisabled();
+  }
 }

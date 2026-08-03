@@ -22,7 +22,7 @@
   }
 
   .confirm-dialog-btn {
-    @apply text-base rounded-sm px-2 py-0.5 shadow-md;
+    @apply text-base rounded-sm px-2 py-0.5 shadow-md cursor-pointer;
   }
 
   .confirm-dialog-btn--cancel {

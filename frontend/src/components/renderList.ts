@@ -29,8 +29,8 @@ export function renderFiles(files: FileListItemDto[]) {
         <button
           data-file-action
           type="button"
-          class="primary-button depth-box ml-4 three-dot-btn"
-          popovertarget="file-menu"
+          class="primary-button depth-box ml-4 three-dot-btn select-none"
+          popovertarget="fileMenu"
         >
           <span class="svg-gr svg-size-sm svg-threeDots"></span>
         </button>

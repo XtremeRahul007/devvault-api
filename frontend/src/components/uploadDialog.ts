@@ -36,10 +36,10 @@ const createUploadContainer = () => {
             </button>
         </div>
         <div class="flex flex-col justify-center items-center bg-(--secondary-bg) rounded-md p-4 primary-inset-container gap-4">
-            <label for="fileInput" class="svg-gr svg-size-lg svg-upload text-(--tertiary-color)"></label>
+            <label for="fileInput" class="svg-gr svg-size-lg svg-upload text-(--tertiary-color) cursor-pointer"></label>
             <input class="hidden" type="file" id="fileInput" name="fileInput" multiple></input>
             <p class="text-(--tertiary-color)">Ready to upload, Max files size is <strong>${formatFileSize(maxFileSize)}</strong>.</p>
-            <button type="submit" class="depth-box px-2 py-1 rounded-lg bg-(--secondary-bg) text-(--secondary-color) active:scale-95 transition-transform duration-150 ease-in-out" id="submitUpload">Submit Upload</button>
+            <button type="submit" class="depth-box px-2 py-1 rounded-lg bg-(--secondary-bg) text-(--secondary-color) active:scale-95 cursor-pointer transition-transform duration-150 ease-in-out" id="submitUpload">Submit Upload</button>
         </div>
     </div>
   `;

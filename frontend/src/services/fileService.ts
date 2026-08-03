@@ -8,9 +8,10 @@ import {
 import { confirmDialog } from "../components/confirmDialog";
 import { updateInfoDialog } from "../components/fileInfoDialog";
 import { renderFiles } from "../components/renderList";
+import { refreshFileList } from "../utils/refreshFileListHandler";
 import { toast } from "./toastService";
 
-export async function fileListRenderingService(): Promise<void> {
+export async function fileListRenderingService(): Promise<boolean> {
   const response = await getFiles();
 
   if (response === undefined) return;
@@ -19,14 +20,15 @@ export async function fileListRenderingService(): Promise<void> {
 
   if (response.error !== undefined) {
     toast.error(response.error);
-    return;
+    return false;
   }
 
   const files = responseData.data;
 
   renderFiles(files);
 
-  toast.success(`${response.data.totalFiles} ${response.message}`);
+  toast.success(`${response.message}`);
+  return true;
 }
 
 export async function fileInfoService(fileID: string): Promise<void> {
@@ -91,6 +93,7 @@ export async function deleteService(fileID: string) {
     }
 
     toast.success(`${response.message}`);
+    await refreshFileList();
   }
 }
 

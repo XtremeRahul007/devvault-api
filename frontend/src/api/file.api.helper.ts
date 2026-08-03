@@ -1,8 +1,10 @@
+import { toast } from "../services/toastService";
+
 export async function apiResponse<T>(
   response: Response,
 ): Promise<T | undefined> {
   if (!response.ok) {
-    console.log(response);
+    toast.error(`${response}`)
     return;
   }
 
