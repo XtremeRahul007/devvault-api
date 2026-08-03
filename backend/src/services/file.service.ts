@@ -116,7 +116,7 @@ export async function getAllUploadsService(
   );
 
   const feedBackMessage =
-    totalFiles > 1
+    totalFiles > 0
       ? `Successfully fetched ${totalFiles} file${totalFiles !== 1 ? "s" : ""}`
       : "No files available to fetch";
   return {
