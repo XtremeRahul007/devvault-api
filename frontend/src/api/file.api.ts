@@ -2,16 +2,23 @@ import type {
   ApiResponse,
   FileInfo,
   FileListItemDto,
+  OrganizeState,
   PaginatedResponse,
 } from "../@types/file.type";
 import { fileUploadingState, updateProgress } from "../components/uploadDialog";
 import { toast } from "../services/toastService";
 import { refreshFileList } from "../utils/refreshFileListHandler";
-import { apiResponse } from "./file.api.helper";
+import { apiResponse, organizeStateHandler } from "./file.api.helper";
 
-export const getFiles = async () => {
+export const getFiles = async (organizeState: OrganizeState) => {
   try {
-    const response = await fetch("/api/file", { method: "GET" });
+    const proxy = new URL("/api/file", window.location.origin);
+
+    if (organizeState) {
+      organizeStateHandler(proxy, organizeState);
+    }
+
+    const response = await fetch(proxy, { method: "GET" });
     return await apiResponse<ApiResponse<PaginatedResponse<FileListItemDto>>>(
       response,
     );

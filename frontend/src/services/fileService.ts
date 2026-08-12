@@ -1,3 +1,4 @@
+import type { OrganizeState } from "../@types/file.type";
 import {
   deleteFile,
   downloadFile,
@@ -11,10 +12,21 @@ import { renderFiles } from "../components/renderList";
 import { refreshFileList } from "../utils/refreshFileListHandler";
 import { toast } from "./toastService";
 
-export async function fileListRenderingService(): Promise<boolean> {
-  const response = await getFiles();
+let organizedState: OrganizeState;
 
-  if (response === undefined) return;
+export function getOrganizeState(currentOrganizeState: OrganizeState): boolean {
+  if (currentOrganizeState) {
+    organizedState = currentOrganizeState;
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export async function fileListRenderingService(): Promise<boolean> {
+  const response = await getFiles(organizedState);
+
+  if (response === undefined) return false;
 
   const responseData = response.data;
 

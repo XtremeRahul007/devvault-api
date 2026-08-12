@@ -4,11 +4,11 @@ import {
   downloadService,
 } from "../services/fileService";
 import { createInfoDialog } from "./fileInfoDialog";
-import { fileIdValidator } from "./validators";
+import { fileIdValidator } from "../utils/validators";
 
 let activeFileID: string | null = null;
 
-export function initPopUpController() {
+export function initFileActionController() {
   const container = document.getElementById("fileList");
 
   if (!container) return;

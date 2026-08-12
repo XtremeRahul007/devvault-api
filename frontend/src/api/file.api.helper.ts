@@ -1,14 +1,23 @@
+import type { OrganizeState } from "../@types/file.type";
 import { toast } from "../services/toastService";
 
 export async function apiResponse<T>(
   response: Response,
 ): Promise<T | undefined> {
   if (!response.ok) {
-    toast.error(`${response}`)
+    toast.error(`${response}`);
     return;
   }
 
   return response.json() as Promise<T>;
+}
+
+export function organizeStateHandler(proxy: URL, organizeState: OrganizeState) {
+  for (const [key, value] of Object.entries(organizeState)) {
+    if (value !== undefined && value !== "") {
+      proxy.searchParams.set(key, String(value));
+    }
+  }
 }
 
 /*

@@ -1,5 +1,5 @@
 import type { FileListItemDto } from "../@types/file.type";
-import { formatFileSize } from "./formatFileSize";
+import { formatFileSize } from "../utils/formatFileSize";
 
 export function renderFiles(files: FileListItemDto[]) {
   const container = document.getElementById("fileList");
@@ -7,7 +7,8 @@ export function renderFiles(files: FileListItemDto[]) {
   if (!container) return;
 
   const fragment = document.createDocumentFragment();
-  files.forEach((file) => {
+
+  for (const file of files) {
     const li = document.createElement("li");
 
     li.dataset.fileId = file.id;
@@ -38,6 +39,6 @@ export function renderFiles(files: FileListItemDto[]) {
       `;
 
     fragment.append(li);
-  });
+  }
   container?.replaceChildren(fragment);
 }

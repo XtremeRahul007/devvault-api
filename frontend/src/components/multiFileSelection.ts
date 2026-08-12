@@ -3,51 +3,73 @@ import {
   multipleFileDownloadService,
 } from "../services/multiSelectionService";
 
+interface ActionButtonElements {
+  uploadButton: HTMLButtonElement;
+  actionMenuButton: HTMLButtonElement;
+  selectBtn: HTMLButtonElement;
+}
+
+interface ContainerElements {
+  actionMenu: HTMLUListElement;
+  counter: HTMLDivElement;
+  menu: HTMLUListElement;
+  selectBtnIco: HTMLSpanElement;
+}
+
 let inSelection: boolean = true;
 let isAllSelected: boolean = false;
 
-let CheckBoxCollection: HTMLInputElement[];
-let CheckedFileLIst: HTMLInputElement[];
+let CheckBoxCollection: HTMLInputElement[] = [];
+let CheckedFileLIst: HTMLInputElement[] = [];
 
-const actionBtnEl = {
-  uploadButton: document.getElementById("uploadButton") as HTMLButtonElement,
-  actionMenuButton: document.getElementById(
-    "actionMenuButton",
-  ) as HTMLButtonElement,
-  selectBtn: document.getElementById("multiSelectButton") as HTMLButtonElement,
-};
-
-const objEl = {
-  actionMenu: document.getElementById(
-    "selectionActionMenu",
-  ) as HTMLUListElement,
-  counter: document.getElementById("fileCounterContainer") as HTMLDivElement,
-  menu: document.getElementById("fileList") as HTMLUListElement,
-  selectBtnIco: document.getElementById(
-    "multiSelectButtonIcon",
-  ) as HTMLSpanElement,
-};
+let actionButtonElements: ActionButtonElements;
+let containerElements: ContainerElements;
 
 export function initMultiSelect() {
+  initElements();
+  createBulkActionMenu();
   selectedFilesCounter();
   getCheckBoxCollection();
   selectionHandler();
   actionMenuHandler();
-  actionBtnEl.selectBtn.addEventListener("click", () => {
+  actionButtonElements.selectBtn.addEventListener("click", () => {
     selectionHandler();
   });
 }
 
+function initElements() {
+  const uploadButton = document.getElementById(
+    "uploadButton",
+  ) as HTMLButtonElement;
+  const actionMenuButton = document.getElementById(
+    "actionMenuButton",
+  ) as HTMLButtonElement;
+  const selectBtn = document.getElementById(
+    "multiSelectButton",
+  ) as HTMLButtonElement;
+  const actionMenu = null;
+  const counter = document.getElementById(
+    "fileCounterContainer",
+  ) as HTMLDivElement;
+  const menu = document.getElementById("fileList") as HTMLUListElement;
+  const selectBtnIco = document.getElementById(
+    "multiSelectButtonIcon",
+  ) as HTMLSpanElement;
+
+  actionButtonElements = { uploadButton, actionMenuButton, selectBtn };
+  containerElements = { actionMenu, counter, menu, selectBtnIco };
+}
+
 function getCheckBoxCollection() {
   CheckBoxCollection = Array.from(
-    objEl.menu.querySelectorAll(
+    containerElements.menu.querySelectorAll(
       "[data-file-checkbox]",
     ) as NodeListOf<HTMLInputElement>,
   );
 }
 
 function selectionHandler() {
-  objEl.counter.textContent = "Files Selected: 0";
+  containerElements.counter.textContent = "Files Selected: 0";
   if (inSelection) {
     selectionDisabled();
   } else {
@@ -60,8 +82,8 @@ function selectionEnabled(): void {
     checkbox.disabled = false;
   }
 
-  actionBtnEl.uploadButton.style.display = "none";
-  actionBtnEl.actionMenuButton.style.display = "";
+  actionButtonElements.uploadButton.style.display = "none";
+  actionButtonElements.actionMenuButton.style.display = "";
 
   document.documentElement.style.setProperty(
     "--handle-three-dot-btn-display",
@@ -72,8 +94,8 @@ function selectionEnabled(): void {
     "pointer",
   );
 
-  objEl.counter.style.display = "";
-  objEl.selectBtnIco.className = "svg-gr svg-size-sm svg-close";
+  containerElements.counter.style.display = "";
+  containerElements.selectBtnIco.className = "svg-gr svg-size-sm svg-close";
   inSelection = true;
   isAllSelected = false;
 }
@@ -84,8 +106,8 @@ function selectionDisabled(): void {
     checkbox.checked = false;
   }
 
-  actionBtnEl.uploadButton.style.display = "";
-  actionBtnEl.actionMenuButton.style.display = "none";
+  actionButtonElements.uploadButton.style.display = "";
+  actionButtonElements.actionMenuButton.style.display = "none";
 
   document.documentElement.style.setProperty(
     "--handle-three-dot-btn-display",
@@ -96,13 +118,14 @@ function selectionDisabled(): void {
     "default",
   );
 
-  objEl.counter.style.display = "none";
-  objEl.selectBtnIco.className = "svg-gr svg-size-sm svg-multiSelect";
+  containerElements.counter.style.display = "none";
+  containerElements.selectBtnIco.className =
+    "svg-gr svg-size-sm svg-multiSelect";
   inSelection = false;
 }
 
 function selectedFilesCounter() {
-  objEl.menu.addEventListener("click", (e) => {
+  containerElements.menu.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
     if (target.closest(".check-li") || target.matches("[data-file-checkbox]")) {
       updateCheckList();
@@ -112,13 +135,13 @@ function selectedFilesCounter() {
 
 function updateCheckList() {
   CheckedFileLIst = Array.from(
-    objEl.menu.querySelectorAll(
+    containerElements.menu.querySelectorAll(
       "[data-file-checkbox]:checked",
     ) as NodeListOf<HTMLInputElement>,
   );
   const checkedCount = CheckedFileLIst.length;
 
-  objEl.counter.textContent = `Files Selected: ${checkedCount}`;
+  containerElements.counter.textContent = `Files Selected: ${checkedCount}`;
 }
 
 function getSelectedFileID(): string[] {
@@ -151,7 +174,8 @@ function selectAllFiles() {
 }
 
 function actionMenuHandler() {
-  objEl.actionMenu.addEventListener("click", async (e) => {
+  if (!containerElements.actionMenu) return;
+  containerElements.actionMenu.addEventListener("click", async (e: Event) => {
     const target = e.target as HTMLElement;
     const actionBtn = target.closest("li");
     if (!actionBtn) return;
@@ -173,6 +197,39 @@ function actionMenuHandler() {
         break;
     }
   });
+}
+
+function createBulkActionMenu() {
+  const menu = document.createElement("ul");
+
+  menu.id = "selectionActionMenu";
+  menu.classList.add("popupMenu", "depth-container");
+  menu.popover = "auto";
+
+  menu.innerHTML = `
+    <div>
+      <li data-action="SelectAll">
+        <button type="button">
+          <span class="svg-gr svg-size-xsm svg-selectAll"></span>
+          <div id="checkToggleBtn">Check All</div>
+        </button>
+      </li>
+      <li data-action="DeleteSelected">
+        <button type="button">
+          <span class="svg-gr svg-size-xsm svg-recycle"></span>
+          <div>Delete Selected Files</div>
+        </button>
+      </li>
+      <li data-action="DownloadSelected">
+        <button type="button">
+          <span class="svg-gr svg-size-xsm svg-download"></span>
+          <div>Download Selected Files</div>
+        </button>
+      </li>
+    </div>
+    `;
+  document.body.append(menu);
+  containerElements.actionMenu = menu;
 }
 
 export function updateSelectionState() {

@@ -1,6 +1,6 @@
 import { uploadService } from "../services/fileService";
-import { formatFileSize } from "./formatFileSize";
-import { validatedFiles } from "./validators";
+import { formatFileSize } from "../utils/formatFileSize";
+import { validatedFiles } from "../utils/validators";
 
 const maxFileSize = Number(import.meta.env.VITE_MAX_FILE_SIZE);
 

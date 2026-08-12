@@ -39,3 +39,12 @@ export interface ApiResponse<T> {
 export interface multiFileIDListObj {
   fileIDList: string[];
 }
+
+export type SortType = "name" | "size" | "uploadedAt";
+export type OrderType = "asc" | "desc";
+
+export interface OrganizeState {
+  order: OrderType;
+  sort: SortType;
+  name: string | undefined;
+}

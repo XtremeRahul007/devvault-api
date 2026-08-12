@@ -18,7 +18,7 @@ export function validateUploadQuery(query: Request["query"]): UploadQuery {
     order: validateOrder(query.order) ?? "asc",
 
     page: validatePage(query.page) ?? 1,
-    limit: validateLimit(query.limit) ?? 20,
+    limit: validateLimit(query.limit) ?? 9999, //Ignore 9999 :\ upcoming feature btw ;)
   };
 }
 
@@ -58,7 +58,7 @@ const validatePage = (properties: unknown): number | undefined => {
   if (!properties) return undefined;
   const page = Number(properties);
   if (Number.isNaN(page) || !Number.isInteger(page) || page < 1) {
-    throw new AppError(400, "Must be a whole positive number");
+    throw new AppError(400, "Page must be a positive integer");
   }
   return page;
 };
@@ -66,9 +66,9 @@ const validatePage = (properties: unknown): number | undefined => {
 const validateLimit = (properties: unknown): number | undefined => {
   if (!properties) return undefined;
   const limit = Number(properties);
-  const MAX_LIMIT = 50;
+  const MAX_LIMIT = 9999;
   if (Number.isNaN(limit) || !Number.isInteger(limit) || limit < 1) {
-    throw new AppError(400, "Must be a whole positive number");
+    throw new AppError(400, "Limit must be a positive integer");
   }
   if (limit > MAX_LIMIT) {
     throw new AppError(400, `Limit cannot exceed ${MAX_LIMIT}`);

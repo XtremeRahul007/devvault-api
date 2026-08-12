@@ -1,21 +1,56 @@
 import "./styles/main.css";
-import { initPopUpController } from "./components/popupMenu";
+import { initFileActionController } from "./components/fileActionMenu";
 import { initUploadFile } from "./components/uploadDialog";
 import { initThemeController } from "./utils/themeManager";
-import { fileListRenderingService } from "./services/fileService";
 import { initMultiSelect } from "./components/multiFileSelection";
+import { initFilterMenu } from "./components/filterMenu";
+import { renderPanelButtons } from "./components/panelButtonRender";
+import { initSearchBar } from "./components/searchBar";
+import {
+  initOrganizeState,
+  updateOrganizeState,
+} from "./components/organizeState";
 
+const UIModules: Array<() => void> = [renderPanelButtons, initThemeController];
+const ActionModules: Array<() => void> = [
+  initFileActionController,
+  initUploadFile,
+  initOrganizeState,
+];
+const postApiModules: Array<() => void> = [
+  initMultiSelect,
+  initFilterMenu,
+  initSearchBar,
+];
 
-async function initApp() {
+function runModules(ModulesList: Array<() => void>): boolean {
+  for (const Module of ModulesList) {
     try {
-        initThemeController();
-        initPopUpController();
-        await fileListRenderingService();
-        initUploadFile();
-        initMultiSelect();
-    } catch (error) {
-        console.error(error);
+      Module();
+    } catch (err) {
+      console.error(err);
+      return false;
     }
+  }
+  return true;
 }
 
-initApp();
+async function initApp() {
+  let operationFinished: boolean = false;
+  try {
+    operationFinished = runModules(UIModules);
+    if (!operationFinished) return;
+
+    operationFinished = runModules(ActionModules);
+    if (!operationFinished) return;
+
+    const rendered = await updateOrganizeState();
+    if (rendered && operationFinished) {
+      runModules(postApiModules);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async () => initApp());

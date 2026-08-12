@@ -1,5 +1,5 @@
 import type { FileInfo } from "../@types/file.type";
-import { formatFileSize } from "./formatFileSize";
+import { formatFileSize } from "../utils/formatFileSize";
 
 export function updateInfoDialog(info: FileInfo | undefined) {
   const wrapper = document.querySelector(
@@ -10,6 +10,9 @@ export function updateInfoDialog(info: FileInfo | undefined) {
     return;
   }
 
+  const validExtension =
+    info.extension.slice(1) !== "" ? info.extension.slice(1) : "Unknown";
+
   wrapper.innerHTML = `
     <div class="flex flex-row justify-between items-center font-bold">
         <div class="text-lg text-(--tertiary-color) ml-1">Info</div>
@@ -18,7 +21,7 @@ export function updateInfoDialog(info: FileInfo | undefined) {
         </button>
     </div>
     <p>File name: ${info.name ?? "loading..."}</p>
-    <p>File type: ${info.extension.slice(1) ?? "loading..."}</p>
+    <p>File type: ${validExtension ?? "loading..."}</p>
     <p>File size: ${formatFileSize(info.size) ?? "loading..."}</p>
     <p>Uploaded at: ${new Date(info.uploadedAt) ?? "loading..."}</p>
     `;
