@@ -19,6 +19,7 @@ import {
   applySorting,
 } from "../utils/uploadQuery.utils.js";
 import { createPaginatedResponse } from "../utils/pagination.utils.js";
+import { validatePostExtension } from "../validators/postNullExtension.validator.js";
 
 export async function createUploadService(
   files: Express.Multer.File[],
@@ -33,7 +34,7 @@ export async function createUploadService(
       originalName: file.originalname,
       storedName,
       mimeType: file.mimetype,
-      extension,
+      extension: validatePostExtension(extension),
       size: file.size,
       uploadedAt: Date.now(),
     };

@@ -47,4 +47,5 @@ export interface OrganizeState {
   order: OrderType;
   sort: SortType;
   name: string | undefined;
+  extension: string | undefined;
 }

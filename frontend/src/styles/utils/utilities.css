@@ -44,7 +44,7 @@ body {
   }
 
   .primary-button {
-    @apply justify-center bg-(--secondary-bg) p-1 rounded-lg cursor-pointer;
+    @apply flex justify-center bg-(--secondary-bg) p-1 rounded-lg cursor-pointer;
 
     span {
       @apply text-(--tertiary-color);

@@ -203,7 +203,7 @@ function createBulkActionMenu() {
   const menu = document.createElement("ul");
 
   menu.id = "selectionActionMenu";
-  menu.classList.add("popupMenu", "depth-container");
+  menu.className = "popupMenu depth-container";
   menu.popover = "auto";
 
   menu.innerHTML = `

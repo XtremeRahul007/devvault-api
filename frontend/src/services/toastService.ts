@@ -1,7 +1,7 @@
 type ToastType = "info" | "success" | "error";
 
 class ToastService {
-  private duration: number = 5000;
+  private duration: number = 3000;
   private container: HTMLElement;
 
   constructor() {

@@ -10,6 +10,7 @@ import {
   initOrganizeState,
   updateOrganizeState,
 } from "./components/organizeState";
+import { initExtensionFilter } from "./components/extensionFilter";
 
 const UIModules: Array<() => void> = [renderPanelButtons, initThemeController];
 const ActionModules: Array<() => void> = [
@@ -21,6 +22,7 @@ const postApiModules: Array<() => void> = [
   initMultiSelect,
   initFilterMenu,
   initSearchBar,
+  initExtensionFilter,
 ];
 
 function runModules(ModulesList: Array<() => void>): boolean {

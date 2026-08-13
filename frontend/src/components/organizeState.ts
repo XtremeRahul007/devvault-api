@@ -6,6 +6,7 @@ const currentOrganizeState: OrganizeState = {
   order: "asc",
   sort: "name",
   name: undefined,
+  extension: undefined,
 };
 
 export function initOrganizeState() {
@@ -15,7 +16,8 @@ export function initOrganizeState() {
 export function setPreviousOrganizeState() {
   currentOrganizeState.order = getValidItem("order", "asc") as OrderType;
   currentOrganizeState.sort = getValidItem("sort", "name") as SortType;
-  currentOrganizeState.name = undefined;
+  currentOrganizeState.name = getValidItem("name", undefined) as string;
+  currentOrganizeState.name = getValidItem("extension", undefined) as string;
 }
 
 export function getCurrentOrganizeState(): OrganizeState {
@@ -34,6 +36,7 @@ export async function updateOrganizeState(): Promise<boolean> {
 function setOrganizeState() {
   for (const [key, value] of Object.entries(currentOrganizeState)) {
     if (value != null) {
+      if (key === "extension") continue;
       localStorage.setItem(key, value);
     }
   }

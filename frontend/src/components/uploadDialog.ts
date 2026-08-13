@@ -1,6 +1,7 @@
 import { uploadService } from "../services/fileService";
 import { formatFileSize } from "../utils/formatFileSize";
 import { validatedFiles } from "../utils/validators";
+import { getCurrentOrganizeState, updateOrganizeState } from "./organizeState";
 
 const maxFileSize = Number(import.meta.env.VITE_MAX_FILE_SIZE);
 
@@ -118,6 +119,9 @@ const bindSubmit = (menu: HTMLDialogElement) => {
     if (serviceCalled) {
       createProgressBar(menu);
       resetInput();
+      const organizeState = getCurrentOrganizeState();
+      organizeState.extension = undefined;
+      updateOrganizeState();
     }
   });
 };

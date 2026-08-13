@@ -18,25 +18,27 @@
         const systemTheme = window.matchMedia(
           "(prefers-color-scheme: dark)",
         ).matches;
-        document.documentElement.dataset.theme = systemTheme ? "dark" : "light";
+        const currentTheme = systemTheme ? "dark" : "light";
+        document.documentElement.dataset.theme = currentTheme;
+        localStorage.setItem("theme", currentTheme);
       })();
     </script>
   </head>
 
-  <body class="flex flex-col">
+  <body class="flex flex-col BODY">
     <header class="p-2">
       <section
         class="flex justify-between items-center bg-(--primary-bg) p-2 px-2.5 rounded-lg depth-container"
       >
         <h1 class="text-4xl font-bold text-(--primary-color)">DevVault</h1>
         <div class="flex flex-row gap-2">
-          <button class="flex primary-button depth-box" id="themeSwitch">
+          <button class="primary-button depth-box" id="themeSwitch">
             <span class="svg-gr svg-size-md" id="themeIcon"></span>
           </button>
         </div>
       </section>
     </header>
-    <main class="flex flex-col flex-1 min-h-0">
+    <main class="flex flex-col flex-1 min-h-0 text-xl">
       <section class="flex flex-row px-2">
         <form
           id="searchForm"
@@ -51,25 +53,21 @@
               name="Search"
               class="outline-none placeholder:text-zinc-400 text-(--tertiary-color) py-1 px-2 flex-1"
               placeholder="Search..."
+              autocomplete="off"
             />
-            <button
-              type="reset"
-              class="flex active:scale-90 transition-transform duration-75 ease-in-out"
-              id="resetSearchButton"
-            >
-              <span
-                class="svg-gr svg-size-sm svg-close text-(--secondary-color)"
-              />
-            </button>
           </div>
           <button
-            type="submit"
-            id="searchButton"
-            class="flex primary-button depth-box"
+            type="reset"
+            class="primary-button depth-box active:scale-90 transition-transform duration-150 ease-in-out"
           >
-            <span
-              class="svg-gr svg-size-sm svg-search text-(--secondary-color)"
-            />
+            <span id="resetIcon" class="svg-gr svg-size-sm" />
+          </button>
+          <button
+            type="button"
+            class="primary-button depth-box"
+            popovertarget="extensionMenu"
+          >
+            <span class="svg-gr svg-size-sm svg-extensionFilter" />
           </button>
         </form>
       </section>

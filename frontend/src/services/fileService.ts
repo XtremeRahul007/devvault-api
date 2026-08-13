@@ -7,6 +7,7 @@ import {
   uploadFiles,
 } from "../api/file.api";
 import { confirmDialog } from "../components/confirmDialog";
+import { getExtensionList } from "../components/extensionFilter";
 import { updateInfoDialog } from "../components/fileInfoDialog";
 import { renderFiles } from "../components/renderList";
 import { refreshFileList } from "../utils/refreshFileListHandler";
@@ -37,9 +38,12 @@ export async function fileListRenderingService(): Promise<boolean> {
 
   const files = responseData.data;
 
+  await getExtensionList(files);
+
   renderFiles(files);
 
   toast.success(`${response.message}`);
+
   return true;
 }
 

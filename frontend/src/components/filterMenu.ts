@@ -32,15 +32,15 @@ function initElements() {
   elementList = { orderButtonIcon, orderButton, menu };
 }
 
-function initToggleOrder() {
-  elementList.orderButton.addEventListener("click", () => {
+async function initToggleOrder() {
+  elementList.orderButton.addEventListener("click", async () => {
     isAscending = currentOrganizeState.order === "asc" ? true : false;
     if (isAscending) {
       setDescendingOrder();
     } else {
       setAscendingOrder();
     }
-    updateOrganizeState();
+    await updateOrganizeState();
   });
 }
 

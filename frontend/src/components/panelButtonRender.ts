@@ -38,50 +38,6 @@ const buttonList: PanelButtonData[] = [
   },
 ];
 
-/*
-<button
-  type="button"
-  class="flex primary-button depth-box"
-  id="multiSelectButton"
->
-  <span id="multiSelectButtonIcon"></span>
-</button>
-
-<button
-  type="button"
-  class="flex primary-button depth-box"
-  id="uploadButton"
->
-  <span class="svg-gr svg-size-sm svg-upload"></span>
-</button>
-
-<button
-  type="button"
-  class="flex primary-button depth-box"
-  popovertarget="selectionActionMenu"
-  id="actionMenuButton"
->
-  <span class="svg-gr svg-size-sm svg-menu"></span>
-</button>
-
-<button
-  type="button"
-  class="flex primary-button depth-box"
-  id="orderButton"
->
-  <span class="svg-gr svg-size-sm" id="orderButtonIcon"></span>
-</button>
-
-<button
-  type="button"
-  class="flex primary-button depth-box"
-  popovertarget="filterMenu"
-  id="filterButton"
->
-  <span class="svg-gr svg-size-sm svg-filter"></span>
-</button>
-*/
-
 export function renderPanelButtons(): void {
   const panel = document.getElementById("buttonPanel") as HTMLDivElement;
   const fragment = document.createDocumentFragment();
@@ -98,7 +54,7 @@ function createButton(buttonData: PanelButtonData) {
   const button = document.createElement("button");
 
   button.type = "button";
-  button.className = "flex primary-button depth-box";
+  button.className = "primary-button depth-box";
   button.id = buttonData.buttonID;
 
   if (buttonData.popoverTarget) {
