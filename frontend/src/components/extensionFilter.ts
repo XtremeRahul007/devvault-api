@@ -1,7 +1,7 @@
 import type { FileListItemDto } from "../@types/file.type";
 import { getCurrentOrganizeState, updateOrganizeState } from "./organizeState";
 
-let extensionList: string[] = [];
+let sortedExtensionList: string[] = [];
 
 interface ExtensionElements {
   extensionMenuList: HTMLUListElement | undefined;
@@ -23,9 +23,10 @@ export async function getExtensionList(files: FileListItemDto[]) {
   for (const file of files) {
     extensions.add(file.extension);
   }
-  extensionList = Array.from(extensions, (value) => value.slice(1));
+  const extensionList = Array.from(extensions, (value) => value.slice(1));
+  sortedExtensionList = sortExtensionList(extensionList);
 
-  if (extensionList.length > 0) {
+  if (sortedExtensionList.length > 0) {
     extensionElements.extensionMenuHeading.textContent = "Select File Type:";
   } else {
     extensionElements.extensionMenuHeading.textContent = "No File Found!";
@@ -45,7 +46,7 @@ function extensionFilterHandler() {
 
 function addListItems() {
   const fragment = document.createDocumentFragment();
-  for (const extension of extensionList) {
+  for (const extension of sortedExtensionList) {
     const list = document.createElement("li");
 
     list.dataset.extension = extension ?? "unknown";
@@ -88,4 +89,9 @@ function setExtensionFilter(extension: string) {
   const organizeState = getCurrentOrganizeState();
   organizeState.extension = extension;
   updateOrganizeState();
+}
+
+function sortExtensionList(extensionList: string[]) {
+  extensionList.sort((a, b) => a.localeCompare(b));
+  return extensionList;
 }
