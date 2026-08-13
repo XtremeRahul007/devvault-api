@@ -1,71 +1,61 @@
 # DevVault
 
-DevVault is a self-hosted file storage platform inspired by modern cloud storage services. It provides a RESTful backend and a lightweight TypeScript frontend for uploading, managing, and retrieving files while maintaining synchronized metadata.
+DevVault is a self-hosted file storage application for uploading, managing, and retrieving files through a web interface.
 
-The project is being built as a learning-focused, production-inspired application with emphasis on clean architecture, maintainability, and scalable software design rather than feature parity with existing cloud providers.
+It has a TypeScript frontend and a Node.js/Express backend, with files stored locally and their metadata maintained separately.
+
+This project started as a learning project and gradually grew into a practical application for learning backend architecture, API design, file handling, and frontend development.
 
 ---
 
-# Features
-
-## Current Features
+## Features
 
 ### File Management
 
-* Upload single or multiple files
-* Download files
-* Delete files
-* Rename files
-* View file metadata
-* Real-time upload progress tracking
-* Upload speed monitoring
-* Backend-driven success and error responses
+- Upload single or multiple files
+- Download files
+- Delete files
+- Rename files
+- View file metadata
+- Select multiple files
+- Bulk delete
+- Bulk download
+- Search files by name
+- Filter files by extension
+- Sort files by name, size, or upload date
+- Pagination
+- Real-time upload progress
+- Upload speed monitoring
+- Update the UI without unnecessary page reloads
 
 ### Frontend
 
-* TypeScript-based frontend
-* Service-oriented architecture
-* API abstraction layer
-* Reusable dialog components
-* Toast notification system
-* Responsive upload interface
+- TypeScript
+- Service-oriented architecture
+- API abstraction layer
+- Reusable dialog components
+- Toast notification system
+- Responsive interface
+- Persistent search and sorting preferences
+- Persistent theme preference
 
 ### Backend
 
-* RESTful API
-* Layered architecture
-* Repository pattern
-* Storage provider abstraction
-* Centralized error handling
-* Local filesystem storage
-* JSON metadata synchronization
+- RESTful API
+- Layered architecture
+- Repository pattern
+- Storage provider abstraction
+- Centralized error handling
+- Request validation
+- Local filesystem storage
+- JSON-based metadata
+- Pagination, filtering, and sorting
 
 ---
 
-# Planned Features
+## Architecture
 
-* Multi-file selection
-* Bulk download
-* Bulk delete
-* Search and filtering
-* Sorting by name, size, and upload date
-* Drag-and-drop uploads
-* Upload cancellation
-* Upload queue management
-* User authentication
-* JWT authorization
-* Role-based permissions
-* Storage analytics
-* Activity logs
-* LAN file sharing
-* Admin dashboard
-* User dashboard
-
----
-
-# Architecture
-
-The backend follows a layered architecture to separate responsibilities and improve maintainability.
+The backend follows a layered architecture:
 
 ```text
 Routes
@@ -81,7 +71,7 @@ Storage Provider
 Local Filesystem
 ```
 
-The frontend follows a similar separation of concerns.
+The frontend separates UI logic from API communication:
 
 ```text
 Components
@@ -95,65 +85,65 @@ REST API
 
 ---
 
-# Storage
+## Storage
 
 Files are stored directly on the local filesystem.
 
-Metadata is maintained separately to allow fast lookups without scanning the storage directory.
+File metadata is stored separately so the application does not need to scan the storage directory every time it needs information about a file.
 
-Current metadata includes information such as:
+Metadata includes information such as:
 
-* File name
-* File size
-* MIME type
-* Upload date
-* Storage location
-
----
-
-# Tech Stack
-
-## Backend
-
-* Node.js
-* Express.js
-* TypeScript
-
-## Frontend
-
-* TypeScript
-* Vite
-* Tailwind CSS
-
-## File Handling
-
-* Multer
-* Node.js File System (fs)
-* Path
-
-## Storage
-
-* Local filesystem
-* JSON metadata
+- File name
+- File size
+- MIME type
+- Upload date
+- Storage location
 
 ---
 
-# Installation
+## Tech Stack
 
-Clone the repository.
+### Backend
+
+- Node.js
+- Express.js
+- TypeScript
+
+### Frontend
+
+- TypeScript
+- Vite
+- Tailwind CSS
+
+### File Handling
+
+- Multer
+- Node.js `fs`
+- Node.js `path`
+
+### Storage
+
+- Local filesystem
+- JSON metadata
+
+---
+
+## Running Locally
+
+Clone the repository:
 
 ```bash
 git clone https://github.com/XtremeRahul007/devvault.git
 cd devvault
 ```
 
-Install dependencies.
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-Start the development server.
+Start the development server:
 
 ```bash
 npm run dev
@@ -161,60 +151,62 @@ npm run dev
 
 ---
 
-# Project Goals
+## Project Goals
 
-DevVault is primarily a software engineering project focused on building production-style architecture and practical development skills.
+DevVault is mainly a hands-on software engineering project.
 
-Goals include:
+The project focuses on learning and applying:
 
-* Clean architecture
-* Scalable project structure
-* Maintainable codebase
-* Real-world backend patterns
-* Modern frontend architecture
-* Self-hosted file management
-
----
-
-# Roadmap
-
-## Version 1
-
-* File upload
-* File download
-* File deletion
-* File rename
-* Metadata management
-* Upload progress tracking
-
-## Version 2
-
-* Bulk file operations
-* Search
-* Sorting
-* Upload queue
-* Drag-and-drop uploads
-
-## Future
-
-* Authentication
-* Authorization
-* User accounts
-* Dashboards
-* LAN sharing
-* Analytics
-* Activity logs
+- Backend architecture
+- REST API design
+- File handling
+- Repository and service patterns
+- Frontend architecture
+- API integration
+- Error handling
+- Validation
+- Testing
+- Local file storage
+- LAN file sharing
 
 ---
 
-# Contributing
+## Roadmap
 
-Contributions, ideas, and feedback are welcome.
+### v1
 
-Feel free to open issues or submit pull requests.
+DevVault v1 is feature-complete.
+
+The current version focuses on core file management, search, filtering, sorting, bulk operations, metadata management, and a responsive web interface.
+
+### v2
+
+Future development may happen in a separate branch or version rather than changing the original v1 implementation.
+
+Possible future ideas include:
+
+- Upload queue
+- Drag-and-drop uploads
+- Upload cancellation
+- Authentication
+- Authorization
+- User accounts
+- Dashboards
+- Storage analytics
+- Activity logs
+
+These are ideas for future development and are not part of the current version.
 
 ---
 
-# License
+## Contributing
+
+Suggestions, feedback, and contributions are welcome.
+
+Feel free to open an issue or submit a pull request.
+
+---
+
+## License
 
 This project is licensed under the MIT License.
